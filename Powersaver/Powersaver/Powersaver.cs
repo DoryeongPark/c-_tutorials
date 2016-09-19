@@ -43,24 +43,26 @@ namespace Powersaver
 
         private void MonitorPowerSaveButtonClicked(object sender, EventArgs e)
         {
-            
             SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_STANBY);
         }
 
         private void MonitorOffButtonClicked(object sender, EventArgs e)
         {
+            if (timer != null && timer.IsAlive == true)
+            {
+                pb_reservation.Value = 0;
+                timer.Abort();
+            }
+
             if (tb_min.Text == "" && tb_sec.Text == "")
                 SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_OFF);
             else
             {
-                if (timer != null && timer.IsAlive == true)
-                    timer.Abort();
-
-                this.timer = new Thread(new ThreadStart(this.ExecuteTimer));
+                this.timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(MONITOR_OFF); }));
                 timer.Start();
             }
-
         }
+
         private void SystemSuspendButtonClicked(object sender, MouseEventArgs e)
         {
             Application.SetSuspendState(PowerState.Suspend, false, false);
@@ -77,9 +79,8 @@ namespace Powersaver
                 e.Handled = true;
         }
 
-        private void ExecuteTimer()
+        private void ExecuteTimer(int event_type)
         {
-
             CheckForIllegalCrossThreadCalls = false;
 
             int min, sec, timer;
@@ -99,7 +100,6 @@ namespace Powersaver
 
             for (;;)
             {
-            
                 if (timer == 0)
                     break;
 
@@ -107,8 +107,10 @@ namespace Powersaver
                 --timer;
                 pb_reservation.Value = ((int)((1.0f - (timer / maxValue)) * 100.0f));
                 Thread.Sleep(1000);
-
             }
+
+            pb_reservation.Value = 0;
+            SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, event_type);
         }
 
     }
