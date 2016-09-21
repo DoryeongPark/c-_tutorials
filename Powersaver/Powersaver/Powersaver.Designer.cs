@@ -226,7 +226,7 @@
             // 
             // pb_reservation
             // 
-            this.pb_reservation.Location = new System.Drawing.Point(15, 322);
+            this.pb_reservation.Location = new System.Drawing.Point(15, 332);
             this.pb_reservation.Name = "pb_reservation";
             this.pb_reservation.Size = new System.Drawing.Size(293, 23);
             this.pb_reservation.TabIndex = 5;
@@ -234,7 +234,7 @@
             // btn_cancelreservation
             // 
             this.btn_cancelreservation.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btn_cancelreservation.Location = new System.Drawing.Point(325, 322);
+            this.btn_cancelreservation.Location = new System.Drawing.Point(325, 332);
             this.btn_cancelreservation.Name = "btn_cancelreservation";
             this.btn_cancelreservation.Size = new System.Drawing.Size(64, 23);
             this.btn_cancelreservation.TabIndex = 2;
@@ -312,6 +312,7 @@
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.DropShadow;
             this.ShowIcon = false;
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.onDestroy);
             this.Load += new System.EventHandler(this.Powersaver_Load);
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).EndInit();
             this.ResumeLayout(false);

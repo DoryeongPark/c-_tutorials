@@ -43,34 +43,30 @@ namespace Powersaver
 
         private void MonitorPowerSaveButtonClicked(object sender, EventArgs e)
         {
-            SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_STANBY);
+            CheckThreadState();
+            timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(MONITOR_STANBY, null); }));
+            timer.Start();
         }
 
         private void MonitorOffButtonClicked(object sender, EventArgs e)
         {
-            if (timer != null && timer.IsAlive == true)
-            {
-                pb_reservation.Value = 0;
-                timer.Abort();
-            }
-
-            if (tb_min.Text == "" && tb_sec.Text == "")
-                SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_OFF);
-            else
-            {
-                this.timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(MONITOR_OFF); }));
-                timer.Start();
-            }
+            CheckThreadState();
+            timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(MONITOR_OFF, null); }));
+            timer.Start();
         }
 
         private void SystemSuspendButtonClicked(object sender, MouseEventArgs e)
         {
-            Application.SetSuspendState(PowerState.Suspend, false, false);
+            CheckThreadState();
+            timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(null, 0); }));
+            timer.Start();
         }
      
         private void SystemHibernateButtonClicked(object sender, EventArgs e)
         {
-            Application.SetSuspendState(PowerState.Hibernate, false, false);
+            CheckThreadState();
+            timer = new Thread(new ThreadStart(delegate () { ExecuteTimer(null, 1); }));
+            timer.Start();
         }
 
         private void InputReservationTime(object sender, KeyPressEventArgs e)
@@ -79,7 +75,7 @@ namespace Powersaver
                 e.Handled = true;
         }
 
-        private void ExecuteTimer(int event_type)
+        private void ExecuteTimer(int? monitor_control, int? system_control)
         {
             CheckForIllegalCrossThreadCalls = false;
 
@@ -110,8 +106,35 @@ namespace Powersaver
             }
 
             pb_reservation.Value = 0;
-            SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, event_type);
+
+            if (monitor_control.HasValue && system_control.HasValue)
+                return;
+
+            if (monitor_control.HasValue)
+                SendMessage(this.Handle.ToInt32(), WM_SYSCOMMAND, SC_MONITORPOWER, monitor_control.Value);
+
+            if (system_control.HasValue)
+            {
+                if (system_control.Value == 0)
+                    Application.SetSuspendState(PowerState.Suspend, false, false);
+                else if (system_control.Value == 1)
+                    Application.SetSuspendState(PowerState.Hibernate, false, false);
+            }
+
         }
 
+        private void CheckThreadState()
+        {
+            if (timer != null && timer.IsAlive == true)
+            {
+                pb_reservation.Value = 0;
+                timer.Abort();
+            }
+        }
+
+        private void onDestroy(object sender, FormClosedEventArgs e)
+        {
+            CheckThreadState();
+        }
     }
 }
