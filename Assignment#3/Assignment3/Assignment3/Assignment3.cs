@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -128,8 +122,11 @@ namespace Assignment3
 
         }
 
-        /* Update label and calendar(DataGridView) with previous month from current date */
-        private void LeftClick(object sender, EventArgs e)
+        /*
+         * Left Button Click event method
+         * Update label and calendar(DataGridView) with previous month from current date
+         */
+        private void LeftButtonClicked(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
             currentDateTimePage = gc.AddMonths(currentDateTimePage, -1); //Decrements month to current date
@@ -138,7 +135,10 @@ namespace Assignment3
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
         }
 
-        /* Update label and calendar(DataGridView) with next month from current date */
+        /*
+         * Right Button Click event method
+         * Update label and calendar(DataGridView) with next month from current date
+         */
         private void RightClick(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
