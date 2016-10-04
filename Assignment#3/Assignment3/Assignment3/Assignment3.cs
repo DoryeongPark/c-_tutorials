@@ -13,6 +13,11 @@ using System.Globalization;
 
 namespace Assignment3
 {
+
+    /*
+     * Assignment3
+     * Program which's able to show current calendar and display next or previous calendar by button  
+     */
     public partial class Assignment3 : MetroForm
     {
         public Assignment3()
@@ -22,6 +27,7 @@ namespace Assignment3
 
         DateTime currentDateTimePage;
     
+        /* Load current date and apply it to components. */
         private void onLoad(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
@@ -30,19 +36,26 @@ namespace Assignment3
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
 
-            grid_calendar.DefaultCellStyle.Font = new Font("나눔바른고딕", 13);
+            grid_calendar.DefaultCellStyle.Font = new Font("맑은 고딕", 13);
             grid_calendar.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             foreach (DataGridViewColumn col in grid_calendar.Columns)
             {
                 col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                col.HeaderCell.Style.Font = new Font("Arial", 11, FontStyle.Bold, GraphicsUnit.Pixel);
+                col.HeaderCell.Style.Font = new Font("맑은 고딕", 11, FontStyle.Bold, GraphicsUnit.Pixel);
             }
 
             UpdateGridView(currentDateTimePage);
             
         }
 
+        /* 
+         * Updates Datagridview as parameter 
+         * dateTime: Date user wanna apply to Calendar
+         * ex)  User wants to look up calendar containing 2016/8/23 
+         *      -> UpdateGridView(Datetime(2016/8/23)) ]
+         *      -> Calendar(DataGridView) updated
+         */
         private void UpdateGridView(DateTime dateTime)
         {
             grid_calendar.Rows.Clear();
@@ -53,10 +66,12 @@ namespace Assignment3
 
             var index = grid_calendar.Rows.Add();
 
+            /* From 1st to last day of month */
             for (int i = 1; i <= monthCount; ++i)
             {
                 grid_calendar.Rows[index].Cells[weekday++].Value = Convert.ToString(i);
-                
+
+                /* If current weekday is Saturday then insert new row */
                 if (weekday == 7)
                 {
                     index = grid_calendar.Rows.Add();
@@ -65,10 +80,12 @@ namespace Assignment3
             }
         }
 
+        /* Returns Date's maximum day count in month and 1st day's weekday  */
         private int GetDayCountInMonth(DateTime dateTime, out DayOfWeek weekDay)
         {
             GregorianCalendar gc = new GregorianCalendar();
 
+            /* Total day count of next month - Total day count of current month = current month's day count */
             var firstOfCurrent = new DateTime(dateTime.Year, dateTime.Month, 1);
             DateTime lastOfCurrent;
 
@@ -78,7 +95,7 @@ namespace Assignment3
                 weekDay = gc.GetDayOfWeek(firstOfCurrent);
                 return gc.GetDayOfYear(lastOfCurrent) - gc.GetDayOfYear(firstOfCurrent);
             }
-            else
+            else // If parameter's month is 12, lastOfCurrent needs to be 12/31
             {
                 lastOfCurrent = new DateTime(dateTime.Year, 12, 31);
                 weekDay = gc.GetDayOfWeek(firstOfCurrent);
@@ -86,6 +103,7 @@ namespace Assignment3
             }            
         }
 
+        /* Parse WeekDay with string to number */
         private int ParseWeekDayToInteger(DayOfWeek weekDay)
         {
             switch (weekDay.ToString())
@@ -110,19 +128,21 @@ namespace Assignment3
 
         }
 
+        /* Update label and calendar(DataGridView) with previous month from current date */
         private void LeftClick(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
-            currentDateTimePage = gc.AddMonths(currentDateTimePage, -1);
+            currentDateTimePage = gc.AddMonths(currentDateTimePage, -1); //Decrements month to current date
             UpdateGridView(currentDateTimePage);
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
         }
 
+        /* Update label and calendar(DataGridView) with next month from current date */
         private void RightClick(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
-            currentDateTimePage = gc.AddMonths(currentDateTimePage, 1);
+            currentDateTimePage = gc.AddMonths(currentDateTimePage, 1);//Increments month to current date
             UpdateGridView(currentDateTimePage);
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
