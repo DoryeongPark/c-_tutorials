@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Powersaver.Properties {
+namespace Assignment5.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -56,6 +56,18 @@ namespace Powersaver.Properties {
             }
             set {
                 this["scShutdown"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int executeCount {
+            get {
+                return ((int)(this["executeCount"]));
+            }
+            set {
+                this["executeCount"] = value;
             }
         }
     }

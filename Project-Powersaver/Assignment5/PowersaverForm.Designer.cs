@@ -52,6 +52,7 @@
             this.ms_standbymode = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_shutdown = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.rb_hibernate = new MetroFramework.Controls.MetroRadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).BeginInit();
             this.pnl_main.SuspendLayout();
             this.cm_powersaver.SuspendLayout();
@@ -78,7 +79,7 @@
             // 
             // btn_execute
             // 
-            this.btn_execute.Location = new System.Drawing.Point(185, 91);
+            this.btn_execute.Location = new System.Drawing.Point(189, 112);
             this.btn_execute.Name = "btn_execute";
             this.btn_execute.Size = new System.Drawing.Size(96, 23);
             this.btn_execute.TabIndex = 1;
@@ -115,7 +116,7 @@
             this.rb_shutdown.AutoSize = true;
             this.rb_shutdown.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.rb_shutdown.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
-            this.rb_shutdown.Location = new System.Drawing.Point(5, 59);
+            this.rb_shutdown.Location = new System.Drawing.Point(5, 85);
             this.rb_shutdown.Name = "rb_shutdown";
             this.rb_shutdown.Size = new System.Drawing.Size(96, 20);
             this.rb_shutdown.TabIndex = 0;
@@ -128,7 +129,7 @@
             this.lbl_log.BackColor = System.Drawing.Color.Transparent;
             this.lbl_log.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_log.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_log.Location = new System.Drawing.Point(34, 233);
+            this.lbl_log.Location = new System.Drawing.Point(34, 257);
             this.lbl_log.Name = "lbl_log";
             this.lbl_log.Size = new System.Drawing.Size(35, 20);
             this.lbl_log.TabIndex = 2;
@@ -140,11 +141,12 @@
             this.pnl_main.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_main.Controls.Add(this.btn_execute);
             this.pnl_main.Controls.Add(this.rb_monitoroff);
+            this.pnl_main.Controls.Add(this.rb_hibernate);
             this.pnl_main.Controls.Add(this.rb_shutdown);
             this.pnl_main.Controls.Add(this.rb_standbymode);
             this.pnl_main.Location = new System.Drawing.Point(34, 97);
             this.pnl_main.Name = "pnl_main";
-            this.pnl_main.Size = new System.Drawing.Size(293, 124);
+            this.pnl_main.Size = new System.Drawing.Size(293, 145);
             this.pnl_main.TabIndex = 3;
             // 
             // tb_log
@@ -162,7 +164,7 @@
             this.tb_log.CustomButton.UseSelectable = true;
             this.tb_log.CustomButton.Visible = false;
             this.tb_log.Lines = new string[0];
-            this.tb_log.Location = new System.Drawing.Point(34, 261);
+            this.tb_log.Location = new System.Drawing.Point(34, 285);
             this.tb_log.MaxLength = 32767;
             this.tb_log.Multiline = true;
             this.tb_log.Name = "tb_log";
@@ -194,6 +196,7 @@
             this.notifyicon.ContextMenuStrip = this.cm_powersaver;
             this.notifyicon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyicon.Icon")));
             this.notifyicon.Visible = true;
+            this.notifyicon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TrayiconClicked);
             // 
             // cm_powersaver
             // 
@@ -209,30 +212,30 @@
             // cm_show
             // 
             this.cm_show.Name = "cm_show";
-            this.cm_show.Size = new System.Drawing.Size(181, 26);
+            this.cm_show.Size = new System.Drawing.Size(163, 26);
             this.cm_show.Text = "Show";
             this.cm_show.Click += new System.EventHandler(this.CMenuItemShowClicked);
             // 
             // cm_monitoroff
             // 
             this.cm_monitoroff.Name = "cm_monitoroff";
-            this.cm_monitoroff.Size = new System.Drawing.Size(181, 26);
+            this.cm_monitoroff.Size = new System.Drawing.Size(163, 26);
             this.cm_monitoroff.Text = "Monitor off";
-            this.cm_monitoroff.Click += new System.EventHandler(this.MenuItemMonitoroffClicked);
+            this.cm_monitoroff.Click += new System.EventHandler(this.MonitoroffRoutine);
             // 
             // cm_shutdown
             // 
             this.cm_shutdown.Name = "cm_shutdown";
-            this.cm_shutdown.Size = new System.Drawing.Size(181, 26);
+            this.cm_shutdown.Size = new System.Drawing.Size(163, 26);
             this.cm_shutdown.Text = "Shutdown";
-            this.cm_shutdown.Click += new System.EventHandler(this.MenuItemShutdownClicked);
+            this.cm_shutdown.Click += new System.EventHandler(this.ShutdownRoutine);
             // 
             // cm_exit
             // 
             this.cm_exit.Name = "cm_exit";
-            this.cm_exit.Size = new System.Drawing.Size(181, 26);
+            this.cm_exit.Size = new System.Drawing.Size(163, 26);
             this.cm_exit.Text = "Exit";
-            this.cm_exit.Click += new System.EventHandler(this.MenuItemExitClicked);
+            this.cm_exit.Click += new System.EventHandler(this.ExitRoutine);
             // 
             // ms_powersaver
             // 
@@ -266,7 +269,7 @@
             this.ms_monitoroff.Name = "ms_monitoroff";
             this.ms_monitoroff.Size = new System.Drawing.Size(223, 30);
             this.ms_monitoroff.Text = "Monitor off";
-            this.ms_monitoroff.Click += new System.EventHandler(this.MenuItemMonitoroffClicked);
+            this.ms_monitoroff.Click += new System.EventHandler(this.MonitoroffRoutine);
             // 
             // ms_standbymode
             // 
@@ -275,7 +278,7 @@
             this.ms_standbymode.Name = "ms_standbymode";
             this.ms_standbymode.Size = new System.Drawing.Size(223, 30);
             this.ms_standbymode.Text = "Standby mode";
-            this.ms_standbymode.Click += new System.EventHandler(this.MenuItemStandbyModeClicked);
+            this.ms_standbymode.Click += new System.EventHandler(this.StandbyModeRoutine);
             // 
             // ms_shutdown
             // 
@@ -284,7 +287,7 @@
             this.ms_shutdown.Name = "ms_shutdown";
             this.ms_shutdown.Size = new System.Drawing.Size(223, 30);
             this.ms_shutdown.Text = "Shut down";
-            this.ms_shutdown.Click += new System.EventHandler(this.MenuItemShutdownClicked);
+            this.ms_shutdown.Click += new System.EventHandler(this.ShutdownRoutine);
             // 
             // ms_exit
             // 
@@ -293,13 +296,25 @@
             this.ms_exit.Name = "ms_exit";
             this.ms_exit.Size = new System.Drawing.Size(223, 30);
             this.ms_exit.Text = "Exit";
-            this.ms_exit.Click += new System.EventHandler(this.MenuItemExitClicked);
+            this.ms_exit.Click += new System.EventHandler(this.ExitRoutine);
+            // 
+            // rb_hibernate
+            // 
+            this.rb_hibernate.AutoSize = true;
+            this.rb_hibernate.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rb_hibernate.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
+            this.rb_hibernate.Location = new System.Drawing.Point(5, 59);
+            this.rb_hibernate.Name = "rb_hibernate";
+            this.rb_hibernate.Size = new System.Drawing.Size(94, 20);
+            this.rb_hibernate.TabIndex = 0;
+            this.rb_hibernate.Text = "Hibernate";
+            this.rb_hibernate.UseSelectable = true;
             // 
             // PowersaverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 430);
+            this.ClientSize = new System.Drawing.Size(363, 457);
             this.Controls.Add(this.btn_shortcut);
             this.Controls.Add(this.tb_log);
             this.Controls.Add(this.lbl_log);
@@ -315,6 +330,8 @@
             this.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnDestroy);
+            this.Shown += new System.EventHandler(this.OnLoad);
+            this.VisibleChanged += new System.EventHandler(this.OnHide);
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).EndInit();
             this.pnl_main.ResumeLayout(false);
             this.pnl_main.PerformLayout();
@@ -350,6 +367,7 @@
         private System.Windows.Forms.ToolStripMenuItem cm_monitoroff;
         private System.Windows.Forms.ToolStripMenuItem cm_shutdown;
         private System.Windows.Forms.ToolStripMenuItem cm_exit;
+        private MetroFramework.Controls.MetroRadioButton rb_hibernate;
     }
 }
 
