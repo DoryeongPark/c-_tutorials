@@ -42,8 +42,8 @@
             this.col_thu = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_fri = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.col_sat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbl_leftbutton = new System.Windows.Forms.Label();
+            this.lbl_rightbutton = new System.Windows.Forms.Label();
             this.lbl_year = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grid_calendar)).BeginInit();
@@ -197,31 +197,31 @@
             this.col_sat.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.col_sat.Width = 54;
             // 
-            // label1
+            // lbl_leftbutton
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("나눔바른고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.Firebrick;
-            this.label1.Location = new System.Drawing.Point(39, 41);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 34);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "<<";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Click += new System.EventHandler(this.LeftButtonClicked);
+            this.lbl_leftbutton.AutoSize = true;
+            this.lbl_leftbutton.Font = new System.Drawing.Font("나눔바른고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_leftbutton.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbl_leftbutton.Location = new System.Drawing.Point(39, 41);
+            this.lbl_leftbutton.Name = "lbl_leftbutton";
+            this.lbl_leftbutton.Size = new System.Drawing.Size(41, 34);
+            this.lbl_leftbutton.TabIndex = 2;
+            this.lbl_leftbutton.Text = "<<";
+            this.lbl_leftbutton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_leftbutton.Click += new System.EventHandler(this.LeftButtonClicked);
             // 
-            // label2
+            // lbl_rightbutton
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("나눔바른고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.ForeColor = System.Drawing.Color.Firebrick;
-            this.label2.Location = new System.Drawing.Point(375, 41);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 34);
-            this.label2.TabIndex = 2;
-            this.label2.Text = ">>";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label2.Click += new System.EventHandler(this.RightClick);
+            this.lbl_rightbutton.AutoSize = true;
+            this.lbl_rightbutton.Font = new System.Drawing.Font("나눔바른고딕", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_rightbutton.ForeColor = System.Drawing.Color.Firebrick;
+            this.lbl_rightbutton.Location = new System.Drawing.Point(375, 41);
+            this.lbl_rightbutton.Name = "lbl_rightbutton";
+            this.lbl_rightbutton.Size = new System.Drawing.Size(41, 34);
+            this.lbl_rightbutton.TabIndex = 2;
+            this.lbl_rightbutton.Text = ">>";
+            this.lbl_rightbutton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_rightbutton.Click += new System.EventHandler(this.RightButtonClicked);
             // 
             // lbl_year
             // 
@@ -239,10 +239,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(456, 325);
+            this.ClientSize = new System.Drawing.Size(456, 311);
             this.Controls.Add(this.lbl_year);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl_rightbutton);
+            this.Controls.Add(this.lbl_leftbutton);
             this.Controls.Add(this.grid_calendar);
             this.Controls.Add(this.lbl_month);
             this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -274,8 +274,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn col_thu;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_fri;
         private System.Windows.Forms.DataGridViewTextBoxColumn col_sat;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_rightbutton;
+        private System.Windows.Forms.Label lbl_leftbutton;
         private System.Windows.Forms.Label lbl_year;
     }
 }

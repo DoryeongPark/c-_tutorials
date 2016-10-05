@@ -25,7 +25,7 @@ namespace Assignment3
         private void onLoad(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
-
+            
             currentDateTimePage = DateTime.Today;
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
@@ -48,7 +48,7 @@ namespace Assignment3
          * dateTime: Date user wanna apply to Calendar
          * ex)  User wants to look up calendar containing 2016/8/23 
          *      -> UpdateGridView(Datetime(2016/8/23)) ]
-         *      -> Calendar(DataGridView) updated
+         *      -> Calendar(DataGridView) updated with 2016/8
          */
         private void UpdateGridView(DateTime dateTime)
         {
@@ -128,24 +128,36 @@ namespace Assignment3
          */
         private void LeftButtonClicked(object sender, EventArgs e)
         {
+            
             GregorianCalendar gc = new GregorianCalendar();
             currentDateTimePage = gc.AddMonths(currentDateTimePage, -1); //Decrements month to current date
             UpdateGridView(currentDateTimePage);
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
+
+            if (currentDateTimePage.Month == 1)
+                lbl_rightbutton.Enabled = false;
+            else
+                lbl_rightbutton.Enabled = true;
         }
 
         /*
          * Right Button Click event method
          * Update label and calendar(DataGridView) with next month from current date
          */
-        private void RightClick(object sender, EventArgs e)
+        private void RightButtonClicked(object sender, EventArgs e)
         {
             GregorianCalendar gc = new GregorianCalendar();
             currentDateTimePage = gc.AddMonths(currentDateTimePage, 1);//Increments month to current date
             UpdateGridView(currentDateTimePage);
             lbl_month.Text = Convert.ToString(gc.GetMonth(currentDateTimePage));
             lbl_year.Text = Convert.ToString(gc.GetYear(currentDateTimePage));
+
+            if (currentDateTimePage.Month == 12)
+                lbl_leftbutton.Enabled = false;
+            else
+                lbl_leftbutton.Enabled = true;
+
         }
     }
 }
