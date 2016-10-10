@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -15,19 +8,16 @@ namespace Assignment4
 {
     public partial class Assignment4 : MetroForm
     {
-
-        string currentFile = "";
+        private string currentFile = "";
 
         public Assignment4()
         {
             InitializeComponent();
         }
 
-        private void OnLoad(object sender, EventArgs e)
-        {
-            
-        }
+        private void OnLoad(object sender, EventArgs e){}
 
+        /* Show OpenFileDialog with text file filter and save seleced file path */
         private void OpenButtonClicked(object sender, EventArgs e)
         {
             tb_main.Clear();
@@ -39,10 +29,10 @@ namespace Assignment4
             {
                 LoadFileOnTextBox(fd.FileName);
                 lbl_currentfile.Text = currentFile = fd.FileName;
-                
             }   
         }
 
+        /* Write current contents in text box on selected file */
         private void SaveButtonClicked(object sender, EventArgs e)
         {
             if (currentFile.Length != 0)
@@ -51,10 +41,10 @@ namespace Assignment4
                 MetroMessageBox.Show(this, "You should open file first");
 
             lbl_currentfile.Text = currentFile = "";
-
             tb_main.Clear();
         }
 
+        /* Open font dialog and apply selected font to fextbox  */
         private void FontButtonClicked(object sender, EventArgs e)
         {
             FontDialog fd = new FontDialog();
@@ -62,7 +52,8 @@ namespace Assignment4
             if(fd.ShowDialog() == DialogResult.OK)
                 tb_main.Font = fd.Font;
         }
-             
+            
+        /* Open color dialog and apply selected color to textbox background color */ 
         private void BackgroundButtonClicked(object sender, EventArgs e)
         {
             ColorDialog cd = new ColorDialog();
@@ -70,7 +61,8 @@ namespace Assignment4
             if (cd.ShowDialog() == DialogResult.OK)
                tb_main.BackColor = cd.Color;
         }
-           
+        
+        /* Routine reading text from file and write them on textbox */   
         private void LoadFileOnTextBox(string fileName)
         {
             StreamReader sr = new StreamReader(fileName);

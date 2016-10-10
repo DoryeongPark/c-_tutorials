@@ -148,7 +148,11 @@
             this.Controls.Add(this.btn_fonteditor);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.btn_open);
+            this.ForeColor = System.Drawing.Color.White;
+            this.MaximizeBox = false;
             this.Name = "Assignment4";
+            this.Resizable = false;
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.None;
             this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
