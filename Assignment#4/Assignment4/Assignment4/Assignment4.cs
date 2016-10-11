@@ -4,18 +4,27 @@ using MetroFramework;
 using MetroFramework.Forms;
 using System.IO;
 
+
 namespace Assignment4
 {
     public partial class Assignment4 : MetroForm
     {
         private string currentFile = "";
 
+        private int previousWidth;
+        private int previousHeight;
+      
         public Assignment4()
         {
             InitializeComponent();
         }
 
-        private void OnLoad(object sender, EventArgs e){}
+        /* Set form's title and get form's current size */
+        private void OnLoad(object sender, EventArgs e) {
+            Text = "박도령2010112406실습#6";
+            previousWidth = Width;
+            previousHeight = Height;
+        }
 
         /* Show OpenFileDialog with text file filter and save seleced file path */
         private void OpenButtonClicked(object sender, EventArgs e)
@@ -44,13 +53,17 @@ namespace Assignment4
             tb_main.Clear();
         }
 
-        /* Open font dialog and apply selected font to fextbox  */
+        /* Open font dialog and apply selected font and color to fextbox  */
         private void FontButtonClicked(object sender, EventArgs e)
         {
             FontDialog fd = new FontDialog();
-
-            if(fd.ShowDialog() == DialogResult.OK)
+            fd.ShowColor = true;
+            
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
                 tb_main.Font = fd.Font;
+                tb_main.ForeColor = fd.Color;
+            }
         }
             
         /* Open color dialog and apply selected color to textbox background color */ 
@@ -70,9 +83,19 @@ namespace Assignment4
             
             while((oneLine = sr.ReadLine()) != null)
                 tb_main.AppendText(oneLine + "\r\n");
-            
+                                                                                                                                                                                                                      
             sr.Close();
-        }   
+        }
+
+        /* Resize or move component as form's size is changed */
+        private void ResizeComponents(object sender, EventArgs e)
+        {
+            var translationWidth = Width - previousWidth;
+            var translationHeight = Height - previousHeight;
+
+            tb_main.Width += translationWidth;
+            tb_main.Height += translationHeight;
+        }
     }
 }
             
