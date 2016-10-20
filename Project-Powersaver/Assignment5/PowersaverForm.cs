@@ -12,8 +12,11 @@ using Microsoft.Win32;
 using Assignment5.Properties;
 using Assignment5;
 using System.Threading;
+using System.IO;
+using System.Drawing;
 
-/* Things to do: Register startup, Socket Listener,// Register id, Save log file */
+
+/* Things to do: Register startup, Socket Listener,// Register id */
 namespace Powersaver
 {
     /*
@@ -24,7 +27,7 @@ namespace Powersaver
      * cmdExecuted              Enumeration of current state
      * reservation              Thread for reservation routine
      * tickCount                Reservation timer
-     * 
+     *
      */
     public partial class PowersaverForm : MetroForm
     {
@@ -228,7 +231,6 @@ namespace Powersaver
         /* Calculate time span between last shutdown time and current time */
         private void ShowMessageBoxForLastShutdown(ref Stack<string> lines)
         {
-
             var wakeupTime = lines.Pop();
             var shutdownTime = lines.Pop();
 
@@ -425,7 +427,7 @@ namespace Powersaver
                 
         }
 
-        /* Method to cancelreservation thread */
+        /* Method to cancel reservation thread */
         private void CancelReservation(object sender, EventArgs e)
         {
             if (reservation.IsAlive == true)
@@ -439,6 +441,35 @@ namespace Powersaver
         private void ExecuteNowReservation(object sender, EventArgs e)
         {
             tickCount = 1L;
+        }
+
+        /* Create text file with logs in selected path */
+        private void SaveLogAsFile(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Title = "Create log file";
+            sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+
+            if (sfd.ShowDialog() == DialogResult.OK) {
+                StreamWriter sw = File.CreateText(sfd.FileName);
+                sw.Write(tb_log.Text);
+                sw.Close();
+            }
+        }
+
+        /* Show or Hide form to register id */
+        private void RegisterId(object sender, EventArgs e)
+        {
+            RegisterIdForm rid = new RegisterIdForm();
+            rid.ShowDialog();
+
+            if (rid.IsRegistered == true)
+            {
+                if (ServerConnection.RegisterId(rid.Id) != null)
+                    MessageBox.Show(rid.Id + " is successfully registered");
+                else
+                    MessageBox.Show("Unable to register id - " + rid.Id);
+            }
         }
 
         /* Register this application for startup */
@@ -459,6 +490,5 @@ namespace Powersaver
 
             string[] strList = startupKey.GetValueNames();
         }
-        
     }
 }

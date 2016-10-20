@@ -65,6 +65,8 @@
             this.lbl_sec = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btn_reservation = new MetroFramework.Controls.MetroButton();
+            this.btn_savelog = new MetroFramework.Controls.MetroButton();
+            this.btn_registerid = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).BeginInit();
             this.pnl_main.SuspendLayout();
             this.cm_powersaver.SuspendLayout();
@@ -107,7 +109,7 @@
             this.lbl_title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_title.Font = new System.Drawing.Font("맑은 고딕", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_title.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_title.Location = new System.Drawing.Point(14, 28);
+            this.lbl_title.Location = new System.Drawing.Point(14, 36);
             this.lbl_title.Name = "lbl_title";
             this.lbl_title.Size = new System.Drawing.Size(148, 32);
             this.lbl_title.TabIndex = 2;
@@ -143,7 +145,7 @@
             this.lbl_log.BackColor = System.Drawing.Color.Transparent;
             this.lbl_log.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_log.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_log.Location = new System.Drawing.Point(30, 355);
+            this.lbl_log.Location = new System.Drawing.Point(30, 376);
             this.lbl_log.Name = "lbl_log";
             this.lbl_log.Size = new System.Drawing.Size(35, 20);
             this.lbl_log.TabIndex = 2;
@@ -158,7 +160,7 @@
             this.pnl_main.Controls.Add(this.rb_hibernate);
             this.pnl_main.Controls.Add(this.rb_shutdown);
             this.pnl_main.Controls.Add(this.rb_standbymode);
-            this.pnl_main.Location = new System.Drawing.Point(34, 97);
+            this.pnl_main.Location = new System.Drawing.Point(34, 105);
             this.pnl_main.Name = "pnl_main";
             this.pnl_main.Size = new System.Drawing.Size(293, 145);
             this.pnl_main.TabIndex = 3;
@@ -190,7 +192,7 @@
             this.tb_log.CustomButton.UseSelectable = true;
             this.tb_log.CustomButton.Visible = false;
             this.tb_log.Lines = new string[0];
-            this.tb_log.Location = new System.Drawing.Point(34, 381);
+            this.tb_log.Location = new System.Drawing.Point(34, 402);
             this.tb_log.MaxLength = 32767;
             this.tb_log.Multiline = true;
             this.tb_log.Name = "tb_log";
@@ -209,7 +211,7 @@
             // 
             // btn_shortcut
             // 
-            this.btn_shortcut.Location = new System.Drawing.Point(258, 68);
+            this.btn_shortcut.Location = new System.Drawing.Point(258, 76);
             this.btn_shortcut.Name = "btn_shortcut";
             this.btn_shortcut.Size = new System.Drawing.Size(69, 23);
             this.btn_shortcut.TabIndex = 1;
@@ -334,7 +336,7 @@
             this.pnl_reservation.HorizontalScrollbarBarColor = true;
             this.pnl_reservation.HorizontalScrollbarHighlightOnWheel = false;
             this.pnl_reservation.HorizontalScrollbarSize = 10;
-            this.pnl_reservation.Location = new System.Drawing.Point(34, 97);
+            this.pnl_reservation.Location = new System.Drawing.Point(34, 105);
             this.pnl_reservation.Name = "pnl_reservation";
             this.pnl_reservation.Size = new System.Drawing.Size(294, 145);
             this.pnl_reservation.TabIndex = 6;
@@ -371,7 +373,7 @@
             this.lbl_reservation.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lbl_reservation.Location = new System.Drawing.Point(6, 21);
             this.lbl_reservation.Name = "lbl_reservation";
-            this.lbl_reservation.Size = new System.Drawing.Size(93, 20);
+            this.lbl_reservation.Size = new System.Drawing.Size(81, 17);
             this.lbl_reservation.TabIndex = 7;
             this.lbl_reservation.Text = "Reservation";
             // 
@@ -388,7 +390,7 @@
             this.lbl_time.BackColor = System.Drawing.Color.Transparent;
             this.lbl_time.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_time.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_time.Location = new System.Drawing.Point(30, 258);
+            this.lbl_time.Location = new System.Drawing.Point(30, 266);
             this.lbl_time.Name = "lbl_time";
             this.lbl_time.Size = new System.Drawing.Size(92, 20);
             this.lbl_time.TabIndex = 2;
@@ -488,7 +490,7 @@
             this.panel1.Controls.Add(this.tb_sec);
             this.panel1.Controls.Add(this.btn_reservation);
             this.panel1.Controls.Add(this.lbl_sec);
-            this.panel1.Location = new System.Drawing.Point(34, 282);
+            this.panel1.Location = new System.Drawing.Point(34, 290);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(293, 62);
             this.panel1.TabIndex = 9;
@@ -504,13 +506,35 @@
             this.btn_reservation.UseSelectable = true;
             this.btn_reservation.Click += new System.EventHandler(this.ReservationRoutine);
             // 
+            // btn_savelog
+            // 
+            this.btn_savelog.Location = new System.Drawing.Point(224, 373);
+            this.btn_savelog.Name = "btn_savelog";
+            this.btn_savelog.Size = new System.Drawing.Size(104, 23);
+            this.btn_savelog.TabIndex = 1;
+            this.btn_savelog.Text = "Save log as File";
+            this.btn_savelog.UseSelectable = true;
+            this.btn_savelog.Click += new System.EventHandler(this.SaveLogAsFile);
+            // 
+            // btn_registerid
+            // 
+            this.btn_registerid.Location = new System.Drawing.Point(258, 47);
+            this.btn_registerid.Name = "btn_registerid";
+            this.btn_registerid.Size = new System.Drawing.Size(69, 23);
+            this.btn_registerid.TabIndex = 1;
+            this.btn_registerid.Text = "Register";
+            this.btn_registerid.UseSelectable = true;
+            this.btn_registerid.Click += new System.EventHandler(this.RegisterId);
+            // 
             // PowersaverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 568);
+            this.ClientSize = new System.Drawing.Size(363, 595);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnl_reservation);
+            this.Controls.Add(this.btn_savelog);
+            this.Controls.Add(this.btn_registerid);
             this.Controls.Add(this.btn_shortcut);
             this.Controls.Add(this.tb_log);
             this.Controls.Add(this.lbl_time);
@@ -581,6 +605,8 @@
         private System.Windows.Forms.Label lbl_time;
         private System.Windows.Forms.Panel panel1;
         private MetroFramework.Controls.MetroButton btn_reservation;
+        private MetroFramework.Controls.MetroButton btn_savelog;
+        private MetroFramework.Controls.MetroButton btn_registerid;
     }
 }
 
