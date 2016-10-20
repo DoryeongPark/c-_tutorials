@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -45,11 +38,14 @@ namespace Assignment5
 
         private void DelayAction(object sender, EventArgs e)
         {
-            pb_shutdowndelay.Value = ((int)((float)delayCount / 15 * 100.0f));
+            var progressValue = ((int)((float)delayCount / 15 * 100.0f));
+            if (progressValue <= 0)
+                progressValue = 0;
+            pb_shutdowndelay.Value = progressValue;
             lbl_alert.Text = "Shutdown in " + delayCount.ToString() + " seconds";
             delayCount--;
 
-            if (delayCount == 0)
+            if (delayCount < 0)
             {
                 shutdown = true;
                 Close();

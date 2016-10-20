@@ -13,7 +13,7 @@ using Assignment5.Properties;
 using Assignment5;
 using System.Threading;
 
-/* Things to do: Register startup, Socket Listener */
+/* Things to do: Register startup, Socket Listener,// Register id, Save log file */
 namespace Powersaver
 {
     /*
@@ -71,6 +71,11 @@ namespace Powersaver
 
             if (executeCount > 2)
                 Hide();
+            else
+            {
+                Settings.Default.executeCount = ++executeCount;
+                Settings.Default.Save();
+            }
         }
 
         /* Method of nircmd execution */
@@ -223,45 +228,31 @@ namespace Powersaver
         /* Calculate time span between last shutdown time and current time */
         private void ShowMessageBoxForLastShutdown(ref Stack<string> lines)
         {
-            var wakeupTime = lines.Pop().Substring(0, 21);
-            var shutdownTime = lines.Pop().Substring(0, 21);
 
-            if(wakeupTime.Substring(11, 2) == "오후")
-            {
-                wakeupTime = wakeupTime.Remove(11, 2);
-                var clock = int.Parse(wakeupTime.Substring(12, 1));
-                clock += 12;
-                var clockString = Convert.ToString(clock);
-                wakeupTime = wakeupTime.Remove(11, 2);
-                wakeupTime = wakeupTime.Insert(11, clockString);                
-            }
+            var wakeupTime = lines.Pop();
+            var shutdownTime = lines.Pop();
+
+            var wkTimeCuttingPoint = wakeupTime.LastIndexOf('-');
+            var sdTimeCuttingPoint = shutdownTime.LastIndexOf('-');
+
+            wakeupTime = wakeupTime.Remove(wkTimeCuttingPoint).TrimEnd();
+            shutdownTime = shutdownTime.Remove(sdTimeCuttingPoint).TrimEnd();
+
+            if(wakeupTime.Contains("오후"))
+                wakeupTime = wakeupTime.Replace("오후 ", "") + " PM";                  
             else
-            {
-                wakeupTime = wakeupTime.Remove(11, 3);
-                wakeupTime = wakeupTime.Insert(11, "0");
-            }
-
-            if (shutdownTime.Substring(11, 2) == "오후")
-            {
-                shutdownTime = shutdownTime.Remove(11, 2);
-                var clock = int.Parse(shutdownTime.Substring(12, 1));
-                clock += 12;
-                var clockString = Convert.ToString(clock);
-                shutdownTime = shutdownTime.Remove(11, 2);
-                shutdownTime = shutdownTime.Insert(11, clockString);
-
-            }
-            else
-            {
-                shutdownTime = shutdownTime.Remove(11, 3);
-                shutdownTime = shutdownTime.Insert(11, "0");
-            }
-
+                wakeupTime = wakeupTime.Replace("오전 ", "") + " AM";
+            
+            if (shutdownTime.Contains("오후"))            
+                shutdownTime = shutdownTime.Replace("오후 ", "") + " PM";          
+            else         
+                shutdownTime = shutdownTime.Replace("오전 ", "") + " AM";
+            
             var dtWakeup = DateTime.ParseExact(wakeupTime, 
-                                                    "yyyy-MM-dd HH:mm:ss", 
+                                                    "yyyy-M-d h:mm:ss tt", 
                                                     CultureInfo.InvariantCulture);
             var dtShutdown = DateTime.ParseExact(shutdownTime,
-                                                    "yyyy-MM-dd HH:mm:ss",
+                                                    "yyyy-M-d h:mm:ss tt",
                                                     CultureInfo.InvariantCulture);
             var timeSpan = dtWakeup.Subtract(dtShutdown);
             MessageBox.Show(this, "System restarted in " + timeSpan.ToString());
@@ -272,7 +263,10 @@ namespace Powersaver
         {
             cmdExecuted = CmdExecuted.Monitoroff;
             if (ServerConnection.RequestCommand("2010112406", "write", "sleep") == null)
+            {
+                MessageBox.Show("Can't connect with server");
                 return;
+            }
             Nircmd("monitor off");
         }
 
@@ -281,7 +275,10 @@ namespace Powersaver
         {
             cmdExecuted = CmdExecuted.Suspend;
             if (ServerConnection.RequestCommand("2010112406", "write", "suspend") == null)
+            {
+                MessageBox.Show("Can't connect with server");
                 return;
+            }
             Nircmd("standby");
         }
 
@@ -290,7 +287,10 @@ namespace Powersaver
         {
             cmdExecuted = CmdExecuted.Hibernate;
             if (ServerConnection.RequestCommand("2010112406", "write", "hibernate") == null)
+            {
+                MessageBox.Show("Can't connect with server");
                 return;
+            }
             Application.SetSuspendState(PowerState.Hibernate, false, false);
         }
 
@@ -305,10 +305,13 @@ namespace Powersaver
                 if (sdf.Shutdown == false)
                     return;
             }
-            
+
             //Write and read shutdown log
             if (ServerConnection.RequestCommand("2010112406", "write", "shutdown") == null)
+            {
+                MessageBox.Show("Can't connect with server");
                 return;
+            }
 
             var list = ServerConnection.RequestCommand("2010112406", "read", "shutdown").Split('|');
             var resultStr = list.GetValue(list.Length - 1);
