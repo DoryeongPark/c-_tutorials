@@ -58,9 +58,9 @@
             // 
             // 
             this.tb_registerid.CustomButton.Image = null;
-            this.tb_registerid.CustomButton.Location = new System.Drawing.Point(158, 1);
+            this.tb_registerid.CustomButton.Location = new System.Drawing.Point(152, 2);
             this.tb_registerid.CustomButton.Name = "";
-            this.tb_registerid.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.tb_registerid.CustomButton.Size = new System.Drawing.Size(25, 25);
             this.tb_registerid.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.tb_registerid.CustomButton.TabIndex = 1;
             this.tb_registerid.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -104,7 +104,6 @@
             this.DisplayHeader = false;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Movable = false;
             this.Name = "RegisterIdForm";
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;

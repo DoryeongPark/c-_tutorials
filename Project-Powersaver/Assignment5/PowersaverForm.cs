@@ -13,10 +13,9 @@ using Assignment5.Properties;
 using Assignment5;
 using System.Threading;
 using System.IO;
-using System.Drawing;
 
 
-/* Things to do: Register startup, Socket Listener,// Register id */
+/* Things to do: Register startup, Socket Listener */
 namespace Powersaver
 {
     /*
@@ -195,13 +194,13 @@ namespace Powersaver
                 if (shortcutForMonitoroff.HasValue == true &&
                     keyData.Equals(shortcutForMonitoroff.Value))
                 {
-                    Nircmd("monitor off");
+                    MonitoroffRoutine(new object(), new EventArgs());
                     return true;
                 }
                 else if(shortcutForShutdown.HasValue == true &&
                     keyData.Equals(shortcutForShutdown.Value))
                 {
-                    Nircmd("exitwin poweroff");
+                    ShutdownRoutine(new object(), new EventArgs());
                     return true;
                 }else
                 {
@@ -461,6 +460,7 @@ namespace Powersaver
         private void RegisterId(object sender, EventArgs e)
         {
             RegisterIdForm rid = new RegisterIdForm();
+            rid.StartPosition = FormStartPosition.CenterParent;
             rid.ShowDialog();
 
             if (rid.IsRegistered == true)

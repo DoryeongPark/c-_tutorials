@@ -109,7 +109,7 @@
             this.lbl_title.BackColor = System.Drawing.Color.Transparent;
             this.lbl_title.Font = new System.Drawing.Font("맑은 고딕", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_title.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_title.Location = new System.Drawing.Point(14, 36);
+            this.lbl_title.Location = new System.Drawing.Point(14, 25);
             this.lbl_title.Name = "lbl_title";
             this.lbl_title.Size = new System.Drawing.Size(148, 32);
             this.lbl_title.TabIndex = 2;
