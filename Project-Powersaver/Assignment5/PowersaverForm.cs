@@ -330,7 +330,7 @@ namespace Powersaver
 
             Nircmd("exitwin poweroff");
 
-        }
+        } 
 
         /* Save all user settings and 10 logs of textbox  */
         private void ExitRoutine(object sender, EventArgs e)
