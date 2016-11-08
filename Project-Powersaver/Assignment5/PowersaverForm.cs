@@ -47,7 +47,7 @@ namespace Powersaver
         {
             InitializeComponent();
 
-            /* Initialize components' state */
+            /* Initialize component states */
             reservation = new Thread(new ThreadStart(delegate () { ReservationTick(); }));
 
             pnl_reservation.Visible = false;
@@ -149,7 +149,16 @@ namespace Powersaver
         private void OnClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Visible = false;
+            Visible = false;
+        }
+
+        /* Event for click of minimize button*/
+        private void OnResize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Close();
+            }
         }
 
         /* Execute exit routine when application is exited */
@@ -362,6 +371,9 @@ namespace Powersaver
         {
             if (Visible == false)
                 Show();
+
+            if (WindowState == FormWindowState.Minimized)
+                WindowState = FormWindowState.Normal;
         }
 
         /* Show context menustrip when tray icon is clicked */ 
@@ -490,5 +502,7 @@ namespace Powersaver
 
             string[] strList = startupKey.GetValueNames();
         }
+
+        
     }
 }

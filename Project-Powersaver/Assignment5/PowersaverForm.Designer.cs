@@ -553,6 +553,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnDestroy);
             this.Shown += new System.EventHandler(this.OnLoad);
             this.VisibleChanged += new System.EventHandler(this.OnHide);
+            this.Resize += new System.EventHandler(this.OnResize);
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).EndInit();
             this.pnl_main.ResumeLayout(false);
             this.pnl_main.PerformLayout();
