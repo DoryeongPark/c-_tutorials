@@ -46,6 +46,8 @@
             this.cm_show = new System.Windows.Forms.ToolStripMenuItem();
             this.cm_monitoroff = new System.Windows.Forms.ToolStripMenuItem();
             this.cm_shutdown = new System.Windows.Forms.ToolStripMenuItem();
+            this.socketOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.socketOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cm_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.ms_powersaver = new System.Windows.Forms.MenuStrip();
             this.ms_menu = new System.Windows.Forms.ToolStripMenuItem();
@@ -233,35 +235,51 @@
             this.cm_show,
             this.cm_monitoroff,
             this.cm_shutdown,
+            this.socketOnToolStripMenuItem,
+            this.socketOffToolStripMenuItem,
             this.cm_exit});
             this.cm_powersaver.Name = "cm_powersaver";
-            this.cm_powersaver.Size = new System.Drawing.Size(164, 108);
+            this.cm_powersaver.Size = new System.Drawing.Size(182, 188);
             // 
             // cm_show
             // 
             this.cm_show.Name = "cm_show";
-            this.cm_show.Size = new System.Drawing.Size(163, 26);
+            this.cm_show.Size = new System.Drawing.Size(181, 26);
             this.cm_show.Text = "Show";
             this.cm_show.Click += new System.EventHandler(this.CMenuItemShowClicked);
             // 
             // cm_monitoroff
             // 
             this.cm_monitoroff.Name = "cm_monitoroff";
-            this.cm_monitoroff.Size = new System.Drawing.Size(163, 26);
+            this.cm_monitoroff.Size = new System.Drawing.Size(181, 26);
             this.cm_monitoroff.Text = "Monitor off";
             this.cm_monitoroff.Click += new System.EventHandler(this.MonitoroffRoutine);
             // 
             // cm_shutdown
             // 
             this.cm_shutdown.Name = "cm_shutdown";
-            this.cm_shutdown.Size = new System.Drawing.Size(163, 26);
+            this.cm_shutdown.Size = new System.Drawing.Size(181, 26);
             this.cm_shutdown.Text = "Shutdown";
             this.cm_shutdown.Click += new System.EventHandler(this.ShutdownRoutine);
+            // 
+            // socketOnToolStripMenuItem
+            // 
+            this.socketOnToolStripMenuItem.Name = "socketOnToolStripMenuItem";
+            this.socketOnToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.socketOnToolStripMenuItem.Text = "Socket on";
+            this.socketOnToolStripMenuItem.Click += new System.EventHandler(this.SocketOn);
+            // 
+            // socketOffToolStripMenuItem
+            // 
+            this.socketOffToolStripMenuItem.Name = "socketOffToolStripMenuItem";
+            this.socketOffToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.socketOffToolStripMenuItem.Text = "Socket off";
+            this.socketOffToolStripMenuItem.Click += new System.EventHandler(this.SocketOff);
             // 
             // cm_exit
             // 
             this.cm_exit.Name = "cm_exit";
-            this.cm_exit.Size = new System.Drawing.Size(163, 26);
+            this.cm_exit.Size = new System.Drawing.Size(181, 26);
             this.cm_exit.Text = "Exit";
             this.cm_exit.Click += new System.EventHandler(this.ExitRoutine);
             // 
@@ -592,7 +610,6 @@
         private System.Windows.Forms.ToolStripMenuItem cm_show;
         private System.Windows.Forms.ToolStripMenuItem cm_monitoroff;
         private System.Windows.Forms.ToolStripMenuItem cm_shutdown;
-        private System.Windows.Forms.ToolStripMenuItem cm_exit;
         private MetroFramework.Controls.MetroRadioButton rb_hibernate;
         private MetroFramework.Controls.MetroPanel pnl_reservation;
         private MetroFramework.Controls.MetroProgressBar pb_reservation;
@@ -608,6 +625,9 @@
         private MetroFramework.Controls.MetroButton btn_reservation;
         private MetroFramework.Controls.MetroButton btn_savelog;
         private MetroFramework.Controls.MetroButton btn_registerid;
+        private System.Windows.Forms.ToolStripMenuItem socketOnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem socketOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cm_exit;
     }
 }
 

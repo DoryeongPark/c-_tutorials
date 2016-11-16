@@ -13,9 +13,12 @@ using Assignment5.Properties;
 using Assignment5;
 using System.Threading;
 using System.IO;
+using System.Net;
+using System.Text;
+using System.Net.Sockets;
 
 
-/* Things to do: Register startup, Socket Listener */
+/* Things to do: Socket Listener */
 namespace Powersaver
 {
     /*
@@ -35,6 +38,8 @@ namespace Powersaver
             Normal, Monitoroff, Suspend, Hibernate
         };
 
+        private TCPServer tcpServer;
+
         private Keys? shortcutForMonitoroff;
         private Keys? shortcutForShutdown;
 
@@ -46,6 +51,8 @@ namespace Powersaver
         public PowersaverForm()
         {
             InitializeComponent();
+
+            tcpServer = new TCPServer(this);
 
             /* Initialize component states */
             reservation = new Thread(new ThreadStart(delegate () { ReservationTick(); }));
@@ -64,8 +71,10 @@ namespace Powersaver
 
             /* Check if computer's shutdown last time by this application */
             HandleForLastShutdown();
+
+
         }
-        
+
         /* Check count of execution and hide form as checked result */
         private void OnLoad(object sender, EventArgs e)
         {
@@ -88,7 +97,7 @@ namespace Powersaver
             p.StartInfo.RedirectStandardOutput = true;
             p.StartInfo.FileName = "nircmd.exe";
             p.StartInfo.Arguments = args;
-            p.Start();        
+            p.Start();
         }
 
         /* Execute button event method */
@@ -111,8 +120,8 @@ namespace Powersaver
             {
                 //Read previous command from server and write it
                 string previousCmd = "";
-                
-                switch(cmdExecuted){
+
+                switch (cmdExecuted) {
                     case CmdExecuted.Monitoroff:
                         previousCmd = "sleep";
                         break;
@@ -126,7 +135,7 @@ namespace Powersaver
                         break;
                 }
 
-                var list = ServerConnection.RequestCommand("2010112406", "read", previousCmd ).Split('|');
+                var list = ServerConnection.RequestCommand("2010112406", "read", previousCmd).Split('|');
                 var resultStr = list.GetValue(list.Length - 1);
                 resultStr = resultStr.ToString().Replace("<BR>", "") + " - " + previousCmd;
                 tb_log.AppendText(resultStr + "\r\n");
@@ -169,7 +178,7 @@ namespace Powersaver
 
         /* Check if previous command is "shutdown" then show message box with time span */
         private void HandleForLastShutdown()
-        { 
+        {
             var strArr = tb_log.Text.Split(new string[] { "\r\n" },
                            StringSplitOptions.RemoveEmptyEntries);
 
@@ -178,9 +187,9 @@ namespace Powersaver
 
             Stack<string> lines = new Stack<string>();
             lines.Push((string)strArr.GetValue(strArr.Length - 1));
-            
+
             /* If last tag contains "shutdown" */
-            if(tb_log.Text != "" && lines.Peek().Contains("shutdown"))
+            if (tb_log.Text != "" && lines.Peek().Contains("shutdown"))
             {
                 if (ServerConnection.RequestCommand("2010112406", "write", "wakeup") == null)
                     return;
@@ -192,26 +201,26 @@ namespace Powersaver
                 lines.Push((string)resultStr);
 
                 ShowMessageBoxForLastShutdown(ref lines);
-            }    
+            }
         }
 
         /* Key event method for shortcut */
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (!base.ProcessCmdKey(ref msg, keyData))
-            { 
+            {
                 if (shortcutForMonitoroff.HasValue == true &&
                     keyData.Equals(shortcutForMonitoroff.Value))
                 {
                     MonitoroffRoutine(new object(), new EventArgs());
                     return true;
                 }
-                else if(shortcutForShutdown.HasValue == true &&
+                else if (shortcutForShutdown.HasValue == true &&
                     keyData.Equals(shortcutForShutdown.Value))
                 {
                     ShutdownRoutine(new object(), new EventArgs());
                     return true;
-                }else
+                } else
                 {
                     return false;
                 }
@@ -248,18 +257,18 @@ namespace Powersaver
             wakeupTime = wakeupTime.Remove(wkTimeCuttingPoint).TrimEnd();
             shutdownTime = shutdownTime.Remove(sdTimeCuttingPoint).TrimEnd();
 
-            if(wakeupTime.Contains("오후"))
-                wakeupTime = wakeupTime.Replace("오후 ", "") + " PM";                  
+            if (wakeupTime.Contains("오후"))
+                wakeupTime = wakeupTime.Replace("오후 ", "") + " PM";
             else
                 wakeupTime = wakeupTime.Replace("오전 ", "") + " AM";
-            
-            if (shutdownTime.Contains("오후"))            
-                shutdownTime = shutdownTime.Replace("오후 ", "") + " PM";          
-            else         
+
+            if (shutdownTime.Contains("오후"))
+                shutdownTime = shutdownTime.Replace("오후 ", "") + " PM";
+            else
                 shutdownTime = shutdownTime.Replace("오전 ", "") + " AM";
-            
-            var dtWakeup = DateTime.ParseExact(wakeupTime, 
-                                                    "yyyy-M-d h:mm:ss tt", 
+
+            var dtWakeup = DateTime.ParseExact(wakeupTime,
+                                                    "yyyy-M-d h:mm:ss tt",
                                                     CultureInfo.InvariantCulture);
             var dtShutdown = DateTime.ParseExact(shutdownTime,
                                                     "yyyy-M-d h:mm:ss tt",
@@ -267,7 +276,7 @@ namespace Powersaver
             var timeSpan = dtWakeup.Subtract(dtShutdown);
             MessageBox.Show(this, "System restarted in " + timeSpan.ToString());
         }
-        
+
         /* Write "Sleep log" to server then turn monitor off */
         private void MonitoroffRoutine(object sender, EventArgs e)
         {
@@ -330,7 +339,7 @@ namespace Powersaver
 
             Nircmd("exitwin poweroff");
 
-        } 
+        }
 
         /* Save all user settings and 10 logs of textbox  */
         private void ExitRoutine(object sender, EventArgs e)
@@ -376,12 +385,12 @@ namespace Powersaver
                 WindowState = FormWindowState.Normal;
         }
 
-        /* Show context menustrip when tray icon is clicked */ 
+        /* Show context menustrip when tray icon is clicked */
         private void TrayiconClicked(object sender, MouseEventArgs e)
         {
             cm_powersaver.Show(Cursor.Position.X, Cursor.Position.Y);
         }
- 
+
         /* If form is hidden show tray icon, else hide tray icon */
         private void OnHide(object sender, EventArgs e)
         {
@@ -406,7 +415,7 @@ namespace Powersaver
 
             var timeSpan = new TimeSpan(0, min, sec);
             pnl_reservation.Visible = true;
-            
+
             tickCount = timeSpan.Ticks / 10000000L;
             var maxValue = tickCount;
 
@@ -424,7 +433,7 @@ namespace Powersaver
                     ExecuteButtonClicked(new object(), new EventArgs());
                     break;
                 }
-            }  
+            }
         }
 
         /* Method to start reservation thread */
@@ -435,7 +444,7 @@ namespace Powersaver
 
             reservation = new Thread(new ThreadStart(delegate () { ReservationTick(); }));
             reservation.Start();
-                
+
         }
 
         /* Method to cancel reservation thread */
@@ -447,7 +456,7 @@ namespace Powersaver
                 pnl_reservation.Visible = false;
             }
         }
-        
+
         /* Skip reservation delay and execute command now */
         private void ExecuteNowReservation(object sender, EventArgs e)
         {
@@ -503,6 +512,51 @@ namespace Powersaver
             string[] strList = startupKey.GetValueNames();
         }
 
-        
+        private void ActivateTCPServer(string ip, int port) {
+
+            if (tcpServer == null)
+                return;
+
+            if (tcpServer.Connect("210.94.194.100", 20151) == false)
+            {
+                MessageBox.Show("Fail to connect");
+                return;
+            }
+
+            tcpServer.Start();
+            tcpServer.Send(ip + "&cmd=SLEEP");
+            tcpServer.Receive();
+
+        }
+
+        private void DeActivateTCPServer()
+        {
+            if (tcpServer != null)
+            {
+                tcpServer.Disconnect();
+                tcpServer = null;
+            }
+        }
+
+        private void SocketOn(object sender, EventArgs e)
+        {
+            InsertIpForm iif = new InsertIpForm();
+            
+            if(iif.ShowDialog() == DialogResult.Cancel)
+            {
+                if (iif.IP == null || iif.PortNumber == 0)
+                    return;
+
+                ActivateTCPServer(iif.IP, iif.PortNumber);
+                
+            }
+           
+        }
+
+        private void SocketOff(object sender, EventArgs e)
+        {
+            DeActivateTCPServer();
+        }
     }
+
 }
