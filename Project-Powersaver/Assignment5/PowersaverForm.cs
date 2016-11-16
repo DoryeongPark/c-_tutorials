@@ -24,6 +24,7 @@ namespace Powersaver
     /*
      *  Class member
      * 
+     * tcpServer                Instance containing server / client socket
      * shortcutForMonitorOff    Shortcut variable for monitor off user registered
      * shortcutForShutdown      Shortcut variable for shut down user registered
      * cmdExecuted              Enumeration of current state
@@ -383,6 +384,8 @@ namespace Powersaver
             Settings.Default.Save();
 
             notifyicon.Visible = false;
+            DeactivateSocket();
+
             Environment.Exit(1);
 
         }
@@ -524,7 +527,8 @@ namespace Powersaver
             string[] strList = startupKey.GetValueNames();
         }
 
-        private void MakeConnection() {
+        /* Routine of activating socket */
+        private void ActivateSocket() {
 
             if (tcpServer != null)
             {
@@ -532,6 +536,7 @@ namespace Powersaver
             }
 
             tcpServer = new TCPServer(this);
+
             if (tcpServer.Connect("210.94.194.100", 20151) == false)
             {
                 MessageBox.Show("Fail to connect");
@@ -543,7 +548,8 @@ namespace Powersaver
 
         }
 
-        private void DeactivateTCPServer()
+        /* Routine of deactivating socket */
+        private void DeactivateSocket()
         {
             if (tcpServer != null)
             {
@@ -554,6 +560,7 @@ namespace Powersaver
             }
         }
 
+        /* Event method to activate socket */
         private void SocketOn(object sender, EventArgs e)
         {
             InsertIpForm iif = new InsertIpForm();
@@ -564,14 +571,15 @@ namespace Powersaver
                     return;
 
                 remoteIP = iif.IP;
-                MakeConnection();
+                ActivateSocket();
             }
            
         }
 
+        /* Event method to deactivate socket */
         private void SocketOff(object sender, EventArgs e)
         {
-            DeactivateTCPServer();
+            DeactivateSocket();
         }
     }
 

@@ -23,6 +23,7 @@ namespace Assignment5
             }
         }
 
+        /* Initialize timer */
         public ShutdownDelayForm()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace Assignment5
            
         }
 
+        /* Reduce delay count */
         private void DelayAction(object sender, EventArgs e)
         {
             var progressValue = ((int)((float)delayCount / 15 * 100.0f));
@@ -52,6 +54,7 @@ namespace Assignment5
             }
         }
 
+        /* Cancel shutdown */
         private void Stop(object sender, EventArgs e)
         {
             delay.Stop();
@@ -59,6 +62,7 @@ namespace Assignment5
             Close(); 
         }
 
+        /* Execute shutdown now */
         private void ShutdownNow(object sender, EventArgs e)
         {
             delay.Stop();

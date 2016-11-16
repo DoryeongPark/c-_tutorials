@@ -356,7 +356,7 @@
             this.pnl_reservation.HorizontalScrollbarBarColor = true;
             this.pnl_reservation.HorizontalScrollbarHighlightOnWheel = false;
             this.pnl_reservation.HorizontalScrollbarSize = 10;
-            this.pnl_reservation.Location = new System.Drawing.Point(34, 105);
+            this.pnl_reservation.Location = new System.Drawing.Point(33, 105);
             this.pnl_reservation.Name = "pnl_reservation";
             this.pnl_reservation.Size = new System.Drawing.Size(294, 145);
             this.pnl_reservation.TabIndex = 6;
@@ -552,7 +552,7 @@
             this.lbl_mode.BackColor = System.Drawing.Color.Transparent;
             this.lbl_mode.Font = new System.Drawing.Font("맑은 고딕", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_mode.ForeColor = System.Drawing.Color.YellowGreen;
-            this.lbl_mode.Location = new System.Drawing.Point(149, 7);
+            this.lbl_mode.Location = new System.Drawing.Point(8, 118);
             this.lbl_mode.Name = "lbl_mode";
             this.lbl_mode.Size = new System.Drawing.Size(132, 17);
             this.lbl_mode.TabIndex = 2;
