@@ -16,7 +16,6 @@ namespace Assignment5
     {
 
         private string ip = null;
-        private int portNum = 0;
 
         public string IP {
             get
@@ -25,14 +24,7 @@ namespace Assignment5
             }
         }
 
-        public int PortNumber
-        {
-            get
-            {
-                return portNum;
-            }
-        }
-
+       
         public InsertIpForm()
         {
             InitializeComponent();
@@ -49,17 +41,7 @@ namespace Assignment5
                 ip = null;
                 return;
             }
-                
-
-            try
-            {
-                portNum = int.Parse(tb_port.Text);
-            }catch(Exception exception)
-            {
-                MessageBox.Show("Input correct port number");
-                return;
-            }
-
+               
             Close();
             
         }

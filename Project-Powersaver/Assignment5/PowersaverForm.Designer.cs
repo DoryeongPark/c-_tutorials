@@ -69,6 +69,7 @@
             this.btn_reservation = new MetroFramework.Controls.MetroButton();
             this.btn_savelog = new MetroFramework.Controls.MetroButton();
             this.btn_registerid = new MetroFramework.Controls.MetroButton();
+            this.lbl_mode = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).BeginInit();
             this.pnl_main.SuspendLayout();
             this.cm_powersaver.SuspendLayout();
@@ -158,6 +159,7 @@
             this.pnl_main.BackColor = System.Drawing.Color.Transparent;
             this.pnl_main.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl_main.Controls.Add(this.btn_execute);
+            this.pnl_main.Controls.Add(this.lbl_mode);
             this.pnl_main.Controls.Add(this.rb_monitoroff);
             this.pnl_main.Controls.Add(this.rb_hibernate);
             this.pnl_main.Controls.Add(this.rb_shutdown);
@@ -239,47 +241,47 @@
             this.socketOffToolStripMenuItem,
             this.cm_exit});
             this.cm_powersaver.Name = "cm_powersaver";
-            this.cm_powersaver.Size = new System.Drawing.Size(182, 188);
+            this.cm_powersaver.Size = new System.Drawing.Size(164, 160);
             // 
             // cm_show
             // 
             this.cm_show.Name = "cm_show";
-            this.cm_show.Size = new System.Drawing.Size(181, 26);
+            this.cm_show.Size = new System.Drawing.Size(163, 26);
             this.cm_show.Text = "Show";
             this.cm_show.Click += new System.EventHandler(this.CMenuItemShowClicked);
             // 
             // cm_monitoroff
             // 
             this.cm_monitoroff.Name = "cm_monitoroff";
-            this.cm_monitoroff.Size = new System.Drawing.Size(181, 26);
+            this.cm_monitoroff.Size = new System.Drawing.Size(163, 26);
             this.cm_monitoroff.Text = "Monitor off";
             this.cm_monitoroff.Click += new System.EventHandler(this.MonitoroffRoutine);
             // 
             // cm_shutdown
             // 
             this.cm_shutdown.Name = "cm_shutdown";
-            this.cm_shutdown.Size = new System.Drawing.Size(181, 26);
+            this.cm_shutdown.Size = new System.Drawing.Size(163, 26);
             this.cm_shutdown.Text = "Shutdown";
             this.cm_shutdown.Click += new System.EventHandler(this.ShutdownRoutine);
             // 
             // socketOnToolStripMenuItem
             // 
             this.socketOnToolStripMenuItem.Name = "socketOnToolStripMenuItem";
-            this.socketOnToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.socketOnToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.socketOnToolStripMenuItem.Text = "Socket on";
             this.socketOnToolStripMenuItem.Click += new System.EventHandler(this.SocketOn);
             // 
             // socketOffToolStripMenuItem
             // 
             this.socketOffToolStripMenuItem.Name = "socketOffToolStripMenuItem";
-            this.socketOffToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.socketOffToolStripMenuItem.Size = new System.Drawing.Size(163, 26);
             this.socketOffToolStripMenuItem.Text = "Socket off";
             this.socketOffToolStripMenuItem.Click += new System.EventHandler(this.SocketOff);
             // 
             // cm_exit
             // 
             this.cm_exit.Name = "cm_exit";
-            this.cm_exit.Size = new System.Drawing.Size(181, 26);
+            this.cm_exit.Size = new System.Drawing.Size(163, 26);
             this.cm_exit.Text = "Exit";
             this.cm_exit.Click += new System.EventHandler(this.ExitRoutine);
             // 
@@ -544,6 +546,18 @@
             this.btn_registerid.UseSelectable = true;
             this.btn_registerid.Click += new System.EventHandler(this.RegisterId);
             // 
+            // lbl_mode
+            // 
+            this.lbl_mode.AutoSize = true;
+            this.lbl_mode.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_mode.Font = new System.Drawing.Font("맑은 고딕", 7.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lbl_mode.ForeColor = System.Drawing.Color.YellowGreen;
+            this.lbl_mode.Location = new System.Drawing.Point(149, 7);
+            this.lbl_mode.Name = "lbl_mode";
+            this.lbl_mode.Size = new System.Drawing.Size(132, 17);
+            this.lbl_mode.TabIndex = 2;
+            this.lbl_mode.Text = "Local Control Mode";
+            // 
             // PowersaverForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -628,6 +642,7 @@
         private System.Windows.Forms.ToolStripMenuItem socketOnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem socketOffToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cm_exit;
+        private System.Windows.Forms.Label lbl_mode;
     }
 }
 

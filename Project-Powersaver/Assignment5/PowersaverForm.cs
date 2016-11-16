@@ -38,7 +38,8 @@ namespace Powersaver
             Normal, Monitoroff, Suspend, Hibernate
         };
 
-        private TCPServer tcpServer;
+        private TCPServer tcpServer = null;
+        private string remoteIP = null;
 
         private Keys? shortcutForMonitoroff;
         private Keys? shortcutForShutdown;
@@ -51,8 +52,6 @@ namespace Powersaver
         public PowersaverForm()
         {
             InitializeComponent();
-
-            tcpServer = new TCPServer(this);
 
             /* Initialize component states */
             reservation = new Thread(new ThreadStart(delegate () { ReservationTick(); }));
@@ -103,14 +102,27 @@ namespace Powersaver
         /* Execute button event method */
         private void ExecuteButtonClicked(object sender, EventArgs e)
         {
-            if (rb_monitoroff.Checked == true)
-                MonitoroffRoutine(sender, e);
-            else if (rb_standbymode.Checked == true)
-                StandbyModeRoutine(sender, e);
-            else if (rb_hibernate.Checked == true)
-                HibernateRoutime(sender, e);
-            else if (rb_shutdown.Checked == true)
-                ShutdownRoutine(sender, e);
+
+            if (tcpServer == null)
+            {
+                if (rb_monitoroff.Checked == true)
+                    MonitoroffRoutine(sender, e);
+                else if (rb_standbymode.Checked == true)
+                    StandbyModeRoutine(sender, e);
+                else if (rb_hibernate.Checked == true)
+                    HibernateRoutime(sender, e);
+                else if (rb_shutdown.Checked == true)
+                    ShutdownRoutine(sender, e);
+            }else
+            {
+                if(rb_monitoroff.Checked == true)
+                {
+                    tcpServer.Send(remoteIP + "&cmd=SLEEP");       
+                }else if(rb_shutdown.Checked == true)
+                {
+                    tcpServer.Send(remoteIP + "&cmd=OFF");
+                }                
+            }
         }
 
         /* Monitor event method */
@@ -512,11 +524,14 @@ namespace Powersaver
             string[] strList = startupKey.GetValueNames();
         }
 
-        private void ActivateTCPServer(string ip, int port) {
+        private void MakeConnection() {
 
-            if (tcpServer == null)
+            if (tcpServer != null)
+            {
                 return;
+            }
 
+            tcpServer = new TCPServer(this);
             if (tcpServer.Connect("210.94.194.100", 20151) == false)
             {
                 MessageBox.Show("Fail to connect");
@@ -524,16 +539,17 @@ namespace Powersaver
             }
 
             tcpServer.Start();
-            tcpServer.Send(ip + "&cmd=SLEEP");
-            tcpServer.Receive();
+            lbl_mode.Text = "Remote Control Mode";
 
         }
 
-        private void DeActivateTCPServer()
+        private void DeactivateTCPServer()
         {
             if (tcpServer != null)
             {
                 tcpServer.Disconnect();
+                lbl_mode.Text = "Local Control Mode";
+                remoteIP = null;
                 tcpServer = null;
             }
         }
@@ -544,18 +560,18 @@ namespace Powersaver
             
             if(iif.ShowDialog() == DialogResult.Cancel)
             {
-                if (iif.IP == null || iif.PortNumber == 0)
+                if (iif.IP == null)
                     return;
 
-                ActivateTCPServer(iif.IP, iif.PortNumber);
-                
+                remoteIP = iif.IP;
+                MakeConnection();
             }
            
         }
 
         private void SocketOff(object sender, EventArgs e)
         {
-            DeActivateTCPServer();
+            DeactivateTCPServer();
         }
     }
 
