@@ -117,11 +117,11 @@ namespace Powersaver
             }else
             {
                 if(rb_monitoroff.Checked == true)
-                {
-                    tcpServer.Send(remoteIP + "&cmd=SLEEP");       
+                {                    
+                    tcpServer.Send("ip=" + remoteIP + "&cmd=SLEEP");       
                 }else if(rb_shutdown.Checked == true)
                 {
-                    tcpServer.Send(remoteIP + "&cmd=OFF");
+                    tcpServer.Send("ip=" + remoteIP + "&cmd=OFF");
                 }                
             }
         }
@@ -291,7 +291,7 @@ namespace Powersaver
         }
 
         /* Write "Sleep log" to server then turn monitor off */
-        private void MonitoroffRoutine(object sender, EventArgs e)
+        public void MonitoroffRoutine(object sender, EventArgs e)
         {
             cmdExecuted = CmdExecuted.Monitoroff;
             if (ServerConnection.RequestCommand("2010112406", "write", "sleep") == null)
@@ -327,7 +327,7 @@ namespace Powersaver
         }
 
         /* Show form with shutdown delay bar and execute shutdown command or not as result */
-        private void ShutdownRoutine(object sender, EventArgs e)
+        public void ShutdownRoutine(object sender, EventArgs e)
         {
             ShutdownDelayForm sdf = new ShutdownDelayForm();
             var result = sdf.ShowDialog();

@@ -7,6 +7,8 @@ using System.IO;
 using System.Threading;
 using System.Net;
 using System.Windows.Forms;
+using MetroFramework.Forms;
+using Powersaver;
 
 namespace Assignment5
 {
@@ -42,6 +44,8 @@ namespace Assignment5
         public const int PortNumber = 3342;        //서버 포트 번호
 
         private string ipAddress;     //서버쪽 ip주소
+
+        private bool isClosing = false;
 
         public string IpAddress
         {
@@ -138,15 +142,15 @@ namespace Assignment5
         {
             try
             {
+
                 read.Close();      // 읽기 해제
                 write.Close();	   // 쓰기 해제			 					
                 stream.Close();    // 스트림 해제
 
+                isClosing = true; // 쓰레드 종료
+
                 server.Close();    // 서버 연결 종료
-
-
-                Reader.Abort();    // 쓰레드 종료
-                Accepter.Abort();
+                
             }
             catch
             {
@@ -176,6 +180,9 @@ namespace Assignment5
             // 데몬상태 시작( 클라이언트 접속을 기다림 )
             while (true)
             {
+                if (isClosing == true)
+                    break;
+
                 Socket socket = null;
                 try
                 {
@@ -223,7 +230,16 @@ namespace Assignment5
 
                         if (testerForm != null)
                         {
-                            MessageBox.Show(message);
+                            PowersaverForm form = (PowersaverForm)testerForm;
+                            if (message == "SLEEP")
+                            {
+                                form.MonitoroffRoutine(new object(), new EventArgs());          
+                            }else if(message == "OFF")
+                            {
+                                form.ShutdownRoutine(new object(), new EventArgs());
+                            }
+                                
+                       
                         }
 
                     }
