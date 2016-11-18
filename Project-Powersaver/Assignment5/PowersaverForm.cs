@@ -117,11 +117,13 @@ namespace Powersaver
             }else
             {
                 if(rb_monitoroff.Checked == true)
-                {                    
-                    tcpServer.Send("ip=" + remoteIP + "&cmd=SLEEP");       
+                {
+                    RequestRemoteCommand(remoteIP, "SLEEP");               
+                    //tcpServer.Send("ip=" + remoteIP + "&cmd=SLEEP");       
                 }else if(rb_shutdown.Checked == true)
                 {
-                    tcpServer.Send("ip=" + remoteIP + "&cmd=OFF");
+                    RequestRemoteCommand(remoteIP, "OFF");
+                    //tcpServer.Send("ip=" + remoteIP + "&cmd=OFF");
                 }                
             }
         }
@@ -580,6 +582,32 @@ namespace Powersaver
         private void SocketOff(object sender, EventArgs e)
         {
             DeactivateSocket();
+        }
+
+
+        private void RequestRemoteCommand(string ip, string cmd)
+        {
+            string resultStr;
+            string URL = "http://210.94.194.100:20151/command.asp";
+
+            string message = "ip=" + ip + "&cmd=" + cmd;
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+            byte[] sendData = Encoding.UTF8.GetBytes(message);
+            request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
+            request.ContentLength = sendData.Length;
+            request.Method = "POST";
+
+            StreamWriter sw = new StreamWriter(request.GetRequestStream());
+            sw.Write(message);
+            sw.Close();
+
+            HttpWebResponse httpWebResponse = (HttpWebResponse)request.GetResponse();
+            StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream(), Encoding.GetEncoding("UTF-8"));
+            resultStr = streamReader.ReadToEnd();
+            streamReader.Close();
+            httpWebResponse.Close();
+
         }
     }
 
