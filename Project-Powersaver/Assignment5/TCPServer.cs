@@ -147,9 +147,12 @@ namespace Assignment5
                 write.Close();	   // 쓰기 해제			 					
                 stream.Close();    // 스트림 해제
 
-                isClosing = true; // 쓰레드 종료
+                isClosing = true; 
 
                 server.Close();    // 서버 연결 종료
+
+                Accepter.Abort(); // 쓰레드 종료
+                Reader.Abort();
                 
             }
             catch

@@ -542,6 +542,7 @@ namespace Powersaver
             if (tcpServer.Connect("210.94.194.100", 20151) == false)
             {
                 MessageBox.Show("Fail to connect");
+                tcpServer = null;
                 return;
             }
 
@@ -570,7 +571,9 @@ namespace Powersaver
             if(iif.ShowDialog() == DialogResult.Cancel)
             {
                 if (iif.IP == null)
+                {
                     return;
+                }
 
                 remoteIP = iif.IP;
                 ActivateSocket();
