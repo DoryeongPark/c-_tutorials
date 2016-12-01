@@ -70,5 +70,16 @@ namespace Assignment5.Properties {
                 this["executeCount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::OpenCvSharp.Mat faceRegistered {
+            get {
+                return ((global::OpenCvSharp.Mat)(this["faceRegistered"]));
+            }
+            set {
+                this["faceRegistered"] = value;
+            }
+        }
     }
 }

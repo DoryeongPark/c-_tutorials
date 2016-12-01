@@ -73,7 +73,7 @@
             this.btn_registerface = new MetroFramework.Controls.MetroButton();
             this.btn_compareface = new MetroFramework.Controls.MetroButton();
             this.lbl_vision = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.pnl_vision = new System.Windows.Forms.Panel();
             this.btn_detectmotion = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.stylemanager)).BeginInit();
             this.pnl_main.SuspendLayout();
@@ -81,7 +81,7 @@
             this.ms_powersaver.SuspendLayout();
             this.pnl_reservation.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.pnl_vision.SuspendLayout();
             this.SuspendLayout();
             // 
             // stylemanager
@@ -572,7 +572,7 @@
             this.btn_registerface.TabIndex = 1;
             this.btn_registerface.Text = "Register Face";
             this.btn_registerface.UseSelectable = true;
-            this.btn_registerface.Click += new System.EventHandler(this.RegisterId);
+            this.btn_registerface.Click += new System.EventHandler(this.OnRegisterButtonClicked);
             // 
             // btn_compareface
             // 
@@ -596,15 +596,16 @@
             this.lbl_vision.TabIndex = 2;
             this.lbl_vision.Text = "Vision [Laptop Camera]";
             // 
-            // panel2
+            // pnl_vision
             // 
-            this.panel2.Controls.Add(this.btn_registerface);
-            this.panel2.Controls.Add(this.btn_detectmotion);
-            this.panel2.Controls.Add(this.btn_compareface);
-            this.panel2.Location = new System.Drawing.Point(20, 613);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(354, 60);
-            this.panel2.TabIndex = 10;
+            this.pnl_vision.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnl_vision.Controls.Add(this.btn_registerface);
+            this.pnl_vision.Controls.Add(this.btn_detectmotion);
+            this.pnl_vision.Controls.Add(this.btn_compareface);
+            this.pnl_vision.Location = new System.Drawing.Point(20, 613);
+            this.pnl_vision.Name = "pnl_vision";
+            this.pnl_vision.Size = new System.Drawing.Size(354, 60);
+            this.pnl_vision.TabIndex = 10;
             // 
             // btn_detectmotion
             // 
@@ -633,7 +634,7 @@
             this.Controls.Add(this.lbl_title);
             this.Controls.Add(this.pnl_main);
             this.Controls.Add(this.ms_powersaver);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pnl_vision);
             this.MainMenuStrip = this.ms_powersaver;
             this.MaximizeBox = false;
             this.Name = "PowersaverForm";
@@ -656,7 +657,7 @@
             this.pnl_reservation.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
+            this.pnl_vision.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -705,7 +706,7 @@
         private System.Windows.Forms.ToolStripMenuItem cm_exit;
         private System.Windows.Forms.Label lbl_mode;
         private System.Windows.Forms.Label lbl_vision;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel pnl_vision;
         private MetroFramework.Controls.MetroButton btn_registerface;
         private MetroFramework.Controls.MetroButton btn_detectmotion;
         private MetroFramework.Controls.MetroButton btn_compareface;

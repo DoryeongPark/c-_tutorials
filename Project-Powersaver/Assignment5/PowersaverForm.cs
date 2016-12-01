@@ -612,6 +612,16 @@ namespace Powersaver
             httpWebResponse.Close();
 
         }
+
+        private void OnRegisterButtonClicked(object sender, EventArgs e)
+        {
+            var rff = new RegisterFaceForm();
+
+            if(DialogResult.Cancel == rff.ShowDialog())
+            {
+
+            }
+        }
     }
 
 }
