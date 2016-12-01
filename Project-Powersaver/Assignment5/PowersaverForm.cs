@@ -20,7 +20,6 @@ using System.Net.Sockets;
 using OpenCvSharp;
 
 
-/* Things to do: Socket Listener */
 namespace Powersaver
 {
     /*
@@ -588,7 +587,6 @@ namespace Powersaver
         {
             DeactivateSocket();
         }
-
 
         private void RequestRemoteCommand(string ip, string cmd)
         {
