@@ -17,6 +17,8 @@ using System.Net;
 using System.Text;
 using System.Net.Sockets;
 
+using OpenCvSharp;
+
 
 /* Things to do: Socket Listener */
 namespace Powersaver
@@ -483,7 +485,7 @@ namespace Powersaver
         /* Create text file with logs in selected path */
         private void SaveLogAsFile(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
+            System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
             sfd.Title = "Create log file";
             sfd.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
 

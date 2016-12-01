@@ -82,9 +82,6 @@ namespace Assignment5
             return clientIP;
         }
 
-
-
-
         /// <summary>
         /// 입력받은 ip(서버)로 연결
         /// </summary>
