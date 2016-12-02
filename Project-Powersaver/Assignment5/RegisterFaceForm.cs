@@ -19,7 +19,7 @@ namespace Assignment5
 {
     public partial class RegisterFaceForm : MetroForm
     {
-        private bool StopFrameFlag = false;
+        private bool stopFrameFlag = false;
         private bool isFaceDetected = false;
 
         private VideoCapture camera;
@@ -29,9 +29,14 @@ namespace Assignment5
         private Thread frameRunner;
         private Thread progressRunner;
 
-        private Mat capturedFace = null;
+        private Mat registeredFace = null;
 
         private int gcInterval = 5;
+        
+        public Mat FaceRegistered
+        {
+            get { return registeredFace; }
+        }
 
         public RegisterFaceForm()
         {
@@ -55,7 +60,6 @@ namespace Assignment5
         {
             CheckForIllegalCrossThreadCalls = false;
 
-            Mat previousFrame = new Mat();
             var gcCount = 0;
 
             try
@@ -67,11 +71,11 @@ namespace Assignment5
                 Close();
             }
 
-            while (!StopFrameFlag && camera.IsOpened())
+            while (!stopFrameFlag && camera.IsOpened())
             {
                 camera.Read(currentFrame);
                 
-                var haarCascade = new CascadeClassifier("haarcascade_frontalface_alt.xml");
+                var haarCascade = new CascadeClassifier("haarcascade_frontalface_alt2.xml");
                 faceROI = DetectFace(haarCascade);
 
                 picb_registerface.ImageIpl = currentFrame;
@@ -105,9 +109,10 @@ namespace Assignment5
 
                 if (faces.Length > 0)
                 {
-                    Cv2.Rectangle(currentFrame, faces[0], new Scalar(255, 0, 0), 3);
-                    isFaceDetected = true;
+                    if(pb_registerface.Value != 100)
+                        Cv2.Rectangle(currentFrame, faces[0], new Scalar(255, 0, 0), 3);
 
+                    isFaceDetected = true;
                     return faces[0];
                         
                 }else
@@ -120,9 +125,16 @@ namespace Assignment5
 
         private void RunProgress()
         {
-            while (!StopFrameFlag)
+            while (!stopFrameFlag)
             {
                 Thread.Sleep(500);
+
+                if (pb_registerface.Value == 100)
+                {
+                    stopFrameFlag = true;
+                    RegisterFaceRoutine();
+                    break;
+                }
 
                 if (!isFaceDetected)
                 {
@@ -135,32 +147,40 @@ namespace Assignment5
                     lbl_progressrate.Text = pb_registerface.Value + "%";
                 }
 
-                if(pb_registerface.Value == 100)
-                {
-                    StopFrameFlag = true;
-                    RegisterFaceRoutine();
-                    break;
-                }
-
             }
         }
 
         private void RegisterFaceRoutine()
         {
-            StopFrameFlag = true;
-            capturedFace = currentFrame.SubMat(faceROI);
-            var crff = new ConfirmRegisterFaceForm(capturedFace);
+            stopFrameFlag = true;
+
+            faceROI.X -= 20;
+            faceROI.Y -= 20;
+            faceROI.Width += 40;
+            faceROI.Height += 40;
+
+            if (faceROI.X < 0)
+                faceROI.X = 0;
+            if (faceROI.Y < 0)
+                faceROI.Y = 0;
+            if (faceROI.X + faceROI.Width > currentFrame.Width)
+                faceROI.Width = currentFrame.Width - faceROI.X - 1;
+            if (faceROI.Y + faceROI.Height > currentFrame.Height)
+                faceROI.Height = currentFrame.Height - faceROI.Y - 1;
+
+            registeredFace = currentFrame.SubMat(faceROI);
+
+            var crff = new ConfirmRegisterFaceForm(registeredFace);
 
             if(DialogResult.Cancel == crff.ShowDialog())
             {
                 if (crff.RegisterOK)
                 {
-                    Settings.Default.faceRegistered = crff.CapturedFace;
-                    Settings.Default.Save();
+                    registeredFace = crff.RegisteredFace;
                     Close();
                 }else
                 {
-                    capturedFace = null;
+                    registeredFace = null;
                     Close();
                 }
             }
@@ -168,7 +188,7 @@ namespace Assignment5
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            StopFrameFlag = true;
+            stopFrameFlag = true;
         }
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)

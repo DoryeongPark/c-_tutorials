@@ -619,8 +619,26 @@ namespace Powersaver
 
             if(DialogResult.Cancel == rff.ShowDialog())
             {
+                Settings.Default.faceRegistered = rff.FaceRegistered;
                 GC.Collect(); 
             }
+        }
+
+        private void OnCompareFaceClicked(object sender, EventArgs e)
+        {
+            if (Settings.Default.faceRegistered == null)
+            {
+                MessageBox.Show("Face is not registered");
+                return;
+            }
+
+            var cff = new CompareFaceForm(Settings.Default.faceRegistered);
+            
+            if(cff.ShowDialog() == DialogResult.Cancel)
+            {
+                GC.Collect();
+            }
+            
         }
     }
 

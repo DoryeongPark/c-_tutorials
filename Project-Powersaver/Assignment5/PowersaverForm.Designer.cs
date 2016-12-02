@@ -582,7 +582,7 @@
             this.btn_compareface.TabIndex = 1;
             this.btn_compareface.Text = "Compare Face";
             this.btn_compareface.UseSelectable = true;
-            this.btn_compareface.Click += new System.EventHandler(this.RegisterId);
+            this.btn_compareface.Click += new System.EventHandler(this.OnCompareFaceClicked);
             // 
             // lbl_vision
             // 

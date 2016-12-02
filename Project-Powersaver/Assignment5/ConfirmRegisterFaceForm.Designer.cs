@@ -40,7 +40,7 @@
             this.lbl_confirmregisterface.AutoSize = true;
             this.lbl_confirmregisterface.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_confirmregisterface.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.lbl_confirmregisterface.Location = new System.Drawing.Point(23, 32);
+            this.lbl_confirmregisterface.Location = new System.Drawing.Point(23, 39);
             this.lbl_confirmregisterface.Name = "lbl_confirmregisterface";
             this.lbl_confirmregisterface.Size = new System.Drawing.Size(257, 20);
             this.lbl_confirmregisterface.TabIndex = 2;
@@ -48,7 +48,7 @@
             // 
             // button_registerfaceok
             // 
-            this.button_registerfaceok.Location = new System.Drawing.Point(301, 32);
+            this.button_registerfaceok.Location = new System.Drawing.Point(317, 39);
             this.button_registerfaceok.Name = "button_registerfaceok";
             this.button_registerfaceok.Size = new System.Drawing.Size(75, 23);
             this.button_registerfaceok.Style = MetroFramework.MetroColorStyle.Blue;
@@ -60,7 +60,7 @@
             // 
             // btn_registerfacecancel
             // 
-            this.btn_registerfacecancel.Location = new System.Drawing.Point(391, 32);
+            this.btn_registerfacecancel.Location = new System.Drawing.Point(407, 39);
             this.btn_registerfacecancel.Name = "btn_registerfacecancel";
             this.btn_registerfacecancel.Size = new System.Drawing.Size(75, 23);
             this.btn_registerfacecancel.Style = MetroFramework.MetroColorStyle.Blue;
@@ -72,9 +72,9 @@
             // 
             // picb_confirmregister
             // 
-            this.picb_confirmregister.Location = new System.Drawing.Point(132, 78);
+            this.picb_confirmregister.Location = new System.Drawing.Point(130, 96);
             this.picb_confirmregister.Name = "picb_confirmregister";
-            this.picb_confirmregister.Size = new System.Drawing.Size(220, 226);
+            this.picb_confirmregister.Size = new System.Drawing.Size(255, 255);
             this.picb_confirmregister.TabIndex = 4;
             this.picb_confirmregister.TabStop = false;
             // 
@@ -82,7 +82,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 333);
+            this.ClientSize = new System.Drawing.Size(517, 398);
             this.Controls.Add(this.picb_confirmregister);
             this.Controls.Add(this.btn_registerfacecancel);
             this.Controls.Add(this.button_registerfaceok);

@@ -98,6 +98,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompareFaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompareFaceForm.Designer.cs">
+      <DependentUpon>CompareFaceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfirmRegisterFaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
       <DependentUpon>ShutdownDelayForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TCPServer.cs" />
+    <EmbeddedResource Include="CompareFaceForm.resx">
+      <DependentUpon>CompareFaceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfirmRegisterFaceForm.resx">
       <DependentUpon>ConfirmRegisterFaceForm.cs</DependentUpon>
     </EmbeddedResource>

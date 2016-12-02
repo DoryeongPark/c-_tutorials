@@ -27,7 +27,7 @@ namespace Assignment5
             set { registerOK = value;  }
         }
 
-        public Mat CapturedFace
+        public Mat RegisteredFace
         {
             get { return capturedFace;  }
             set { capturedFace = value; }
