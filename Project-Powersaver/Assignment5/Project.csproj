@@ -98,6 +98,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfirmRegisterFaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfirmRegisterFaceForm.Designer.cs">
+      <DependentUpon>ConfirmRegisterFaceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InsertIpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,9 @@
       <DependentUpon>ShutdownDelayForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TCPServer.cs" />
+    <EmbeddedResource Include="ConfirmRegisterFaceForm.resx">
+      <DependentUpon>ConfirmRegisterFaceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InsertIpForm.resx">
       <DependentUpon>InsertIpForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -50,7 +50,7 @@
             this.lbl_registerface.AutoSize = true;
             this.lbl_registerface.Font = new System.Drawing.Font("맑은 고딕", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_registerface.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.lbl_registerface.Location = new System.Drawing.Point(152, 32);
+            this.lbl_registerface.Location = new System.Drawing.Point(158, 32);
             this.lbl_registerface.Name = "lbl_registerface";
             this.lbl_registerface.Size = new System.Drawing.Size(470, 38);
             this.lbl_registerface.TabIndex = 1;

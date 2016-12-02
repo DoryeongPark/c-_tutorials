@@ -619,7 +619,7 @@ namespace Powersaver
 
             if(DialogResult.Cancel == rff.ShowDialog())
             {
-
+                GC.Collect(); 
             }
         }
     }

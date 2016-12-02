@@ -13,6 +13,7 @@ using MetroFramework.Forms;
 
 using OpenCvSharp;
 using System.Threading;
+using Assignment5.Properties;
 
 namespace Assignment5
 {
@@ -27,6 +28,10 @@ namespace Assignment5
 
         private Thread frameRunner;
         private Thread progressRunner;
+
+        private Mat capturedFace = null;
+
+        private int gcInterval = 5;
 
         public RegisterFaceForm()
         {
@@ -49,7 +54,10 @@ namespace Assignment5
         private void RunFrame()
         {
             CheckForIllegalCrossThreadCalls = false;
-    
+
+            Mat previousFrame = new Mat();
+            var gcCount = 0;
+
             try
             {
                 camera = new VideoCapture(0);
@@ -68,7 +76,13 @@ namespace Assignment5
 
                 picb_registerface.ImageIpl = currentFrame;
 
-                Cv2.WaitKey(1);
+                if (gcInterval == gcCount++)
+                {
+                    GC.Collect();
+                    gcCount = 0;
+                }
+
+                Cv2.WaitKey(30);
             }
         }
 
@@ -80,6 +94,10 @@ namespace Assignment5
             using (var gray = new Mat())
             {
                 result = src.Clone();
+
+                if (src.Empty())
+                    return new Rect(0, 0, 0, 0);
+ 
                 Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
                 Rect[] faces = cascade.DetectMultiScale(
@@ -119,6 +137,7 @@ namespace Assignment5
 
                 if(pb_registerface.Value == 100)
                 {
+                    StopFrameFlag = true;
                     RegisterFaceRoutine();
                     break;
                 }
@@ -129,8 +148,22 @@ namespace Assignment5
         private void RegisterFaceRoutine()
         {
             StopFrameFlag = true;
-            Mat capturedFace = currentFrame.SubMat(faceROI);
-            
+            capturedFace = currentFrame.SubMat(faceROI);
+            var crff = new ConfirmRegisterFaceForm(capturedFace);
+
+            if(DialogResult.Cancel == crff.ShowDialog())
+            {
+                if (crff.RegisterOK)
+                {
+                    Settings.Default.faceRegistered = crff.CapturedFace;
+                    Settings.Default.Save();
+                    Close();
+                }else
+                {
+                    capturedFace = null;
+                    Close();
+                }
+            }
         }
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
@@ -142,7 +175,6 @@ namespace Assignment5
         {
             camera.Dispose();
         }
-
-      
+ 
     }
 }
