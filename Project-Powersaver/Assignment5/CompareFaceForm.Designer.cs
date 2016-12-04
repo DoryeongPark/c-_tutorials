@@ -34,9 +34,9 @@
             // 
             // picb_compareface
             // 
-            this.picb_compareface.Location = new System.Drawing.Point(23, 109);
+            this.picb_compareface.Location = new System.Drawing.Point(61, 113);
             this.picb_compareface.Name = "picb_compareface";
-            this.picb_compareface.Size = new System.Drawing.Size(530, 362);
+            this.picb_compareface.Size = new System.Drawing.Size(740, 400);
             this.picb_compareface.TabIndex = 0;
             this.picb_compareface.TabStop = false;
             // 
@@ -44,7 +44,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 494);
+            this.ClientSize = new System.Drawing.Size(824, 536);
             this.Controls.Add(this.picb_compareface);
             this.MaximizeBox = false;
             this.Name = "CompareFaceForm";

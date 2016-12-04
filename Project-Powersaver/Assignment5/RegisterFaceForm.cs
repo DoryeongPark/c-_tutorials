@@ -71,6 +71,9 @@ namespace Assignment5
                 Close();
             }
 
+            camera.FrameWidth = picb_registerface.Width;
+            camera.FrameHeight = picb_registerface.Height;
+            
             while (!stopFrameFlag && camera.IsOpened())
             {
                 camera.Read(currentFrame);

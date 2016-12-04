@@ -67,6 +67,9 @@ namespace Assignment5
                 Close();
             }
 
+            camera.FrameWidth = picb_compareface.Width;
+            camera.FrameHeight = picb_compareface.Height;
+
             while (!stopFrameFlag && camera.IsOpened())
             {
                 camera.Read(currentFrame);
@@ -160,6 +163,7 @@ namespace Assignment5
                 new OpenCvSharp.Point((right + left) / 2 - 15, (top - 50)),
                 HersheyFonts.HersheyPlain,
                 1.5, new Scalar(0, 255, 0), 3);
+
 
             Cv2.Line(currentFrame,
                 new OpenCvSharp.Point((right + left) / 2 + 5, top - 25),
