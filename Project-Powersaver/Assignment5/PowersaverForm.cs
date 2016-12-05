@@ -640,6 +640,16 @@ namespace Powersaver
             }
             
         }
+
+        private void OnClickDetectMotion(object sender, EventArgs e)
+        {
+            var mdf = new MotionDetectionForm();
+            
+            if(mdf.ShowDialog() == DialogResult.Cancel)
+            {
+                GC.Collect();
+            }
+        }
     }
 
 }

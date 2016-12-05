@@ -615,7 +615,7 @@
             this.btn_detectmotion.TabIndex = 1;
             this.btn_detectmotion.Text = "Detect Motion";
             this.btn_detectmotion.UseSelectable = true;
-            this.btn_detectmotion.Click += new System.EventHandler(this.RegisterId);
+            this.btn_detectmotion.Click += new System.EventHandler(this.OnClickDetectMotion);
             // 
             // PowersaverForm
             // 

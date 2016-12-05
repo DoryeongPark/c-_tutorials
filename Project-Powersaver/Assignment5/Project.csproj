@@ -116,6 +116,12 @@
     <Compile Include="InsertIpForm.Designer.cs">
       <DependentUpon>InsertIpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MotionDetectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MotionDetectionForm.Designer.cs">
+      <DependentUpon>MotionDetectionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PowersaverForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="InsertIpForm.resx">
       <DependentUpon>InsertIpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotionDetectionForm.resx">
+      <DependentUpon>MotionDetectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PowersaverForm.resx">
       <DependentUpon>PowersaverForm.cs</DependentUpon>

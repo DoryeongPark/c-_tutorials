@@ -34,7 +34,7 @@
             // 
             // picb_compareface
             // 
-            this.picb_compareface.Location = new System.Drawing.Point(61, 113);
+            this.picb_compareface.Location = new System.Drawing.Point(45, 114);
             this.picb_compareface.Name = "picb_compareface";
             this.picb_compareface.Size = new System.Drawing.Size(740, 400);
             this.picb_compareface.TabIndex = 0;
