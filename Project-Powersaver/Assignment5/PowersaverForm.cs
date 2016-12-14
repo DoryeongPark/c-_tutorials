@@ -51,6 +51,8 @@ namespace Powersaver
         private Thread reservation;
         private long tickCount;
 
+        private Mat faceRegistered;
+
         public PowersaverForm()
         {
             InitializeComponent();
@@ -80,6 +82,14 @@ namespace Powersaver
         private void OnLoad(object sender, EventArgs e)
         {
             var executeCount = Settings.Default.executeCount;
+
+            try {
+                faceRegistered = Cv2.ImRead("FaceRegistered.jpg", ImreadModes.Color);
+            }
+            catch (Exception)
+            {
+                faceRegistered = null; 
+            }
 
             if (executeCount > 2)
                 Hide();
@@ -363,6 +373,9 @@ namespace Powersaver
             Settings.Default.scMonitorOff = shortcutForMonitoroff.Value;
             Settings.Default.scShutdown = shortcutForShutdown.Value;
 
+            if (faceRegistered != null)
+                Cv2.ImWrite("FaceRegistered.jpg", faceRegistered);
+
             var strArr = tb_log.Text.Split(new string[] { "\r\n" },
                            StringSplitOptions.RemoveEmptyEntries);
             var strList = new List<string>(strArr);
@@ -380,12 +393,14 @@ namespace Powersaver
 
                 if (count == 0 || listCount == 0)
                     break;
+
             }
 
             Settings.Default.history = "";
             Settings.Default.history = resultStr;
+           
             Settings.Default.Save();
-
+            
             notifyicon.Visible = false;
             DeactivateSocket();
 
@@ -619,20 +634,21 @@ namespace Powersaver
 
             if(DialogResult.Cancel == rff.ShowDialog())
             {
-                Settings.Default.faceRegistered = rff.FaceRegistered;
+                faceRegistered = rff.RegisteredFace;
                 GC.Collect(); 
             }
         }
 
         private void OnCompareFaceClicked(object sender, EventArgs e)
         {
-            if (Settings.Default.faceRegistered == null)
+           
+            if (faceRegistered == null)
             {
                 MessageBox.Show("Face is not registered");
                 return;
             }
 
-            var cff = new CompareFaceForm(Settings.Default.faceRegistered);
+            var cff = new CompareFaceForm(faceRegistered);
             
             if(cff.ShowDialog() == DialogResult.Cancel)
             {

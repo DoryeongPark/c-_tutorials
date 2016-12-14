@@ -33,7 +33,7 @@ namespace Assignment5
 
         private int gcInterval = 5;
         
-        public Mat FaceRegistered
+        public Mat RegisteredFace
         {
             get { return registeredFace; }
         }
