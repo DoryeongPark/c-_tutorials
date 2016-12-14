@@ -27,7 +27,7 @@ namespace Assignment5
         private Mat previousFrame;
         private Mat resultFrame;
 
-        private int userSensitivity = 960;     //min: 640 - default: 960 - max: 1280
+        private int userSensitivity = 5000;     //min: 500 - default: 5000 - max: 9500
 
         private bool stopFrameFlag = false;
 
@@ -149,7 +149,7 @@ namespace Assignment5
 
         private void OnScroll(object sender, ScrollEventArgs e)
         {
-            userSensitivity = 640 + (int)(640 * ((float)e.NewValue / 100.0f));
+            userSensitivity = 500 + (int)(9000.0f * ((100-(float)e.NewValue) / 100.0f));
             lbl_sensitivity.Text = e.NewValue.ToString();
         }
     }

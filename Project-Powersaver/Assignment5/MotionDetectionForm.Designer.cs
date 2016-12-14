@@ -46,9 +46,9 @@
             // tb_compareface
             // 
             this.tb_compareface.BackColor = System.Drawing.Color.Transparent;
-            this.tb_compareface.Location = new System.Drawing.Point(74, 516);
+            this.tb_compareface.Location = new System.Drawing.Point(73, 516);
             this.tb_compareface.Name = "tb_compareface";
-            this.tb_compareface.Size = new System.Drawing.Size(509, 23);
+            this.tb_compareface.Size = new System.Drawing.Size(561, 23);
             this.tb_compareface.Style = MetroFramework.MetroColorStyle.Blue;
             this.tb_compareface.TabIndex = 1;
             this.tb_compareface.Theme = MetroFramework.MetroThemeStyle.Dark;
@@ -70,11 +70,12 @@
             this.lbl_sensitivity.AutoSize = true;
             this.lbl_sensitivity.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.lbl_sensitivity.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.lbl_sensitivity.Location = new System.Drawing.Point(650, 511);
+            this.lbl_sensitivity.Location = new System.Drawing.Point(662, 511);
             this.lbl_sensitivity.Name = "lbl_sensitivity";
-            this.lbl_sensitivity.Size = new System.Drawing.Size(48, 28);
+            this.lbl_sensitivity.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.lbl_sensitivity.Size = new System.Drawing.Size(36, 28);
             this.lbl_sensitivity.TabIndex = 2;
-            this.lbl_sensitivity.Text = "320";
+            this.lbl_sensitivity.Text = "50";
             // 
             // MotionDetectionForm
             // 
