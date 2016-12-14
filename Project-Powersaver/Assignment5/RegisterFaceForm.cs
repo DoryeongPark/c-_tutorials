@@ -13,10 +13,33 @@ using MetroFramework.Forms;
 
 using OpenCvSharp;
 using System.Threading;
-using Assignment5.Properties;
 
 namespace Assignment5
 {
+    /*
+     * RegisterFaceForm
+     * 
+     * Author   :   Doryeong Park
+     * Date     :   6. 12. 2016
+     * Desc     :   Form recognizing and registering one face area  
+     *  
+     * 
+     * variables
+     * 
+     * stopFrameFlag    :   When form's closing, the flag stops all threads for capturing & progressbar
+     * isFaceDetected   :   Flag informing state of face detection
+     * 
+     * camera           :   Object which grabs frame of each time
+     * currentFrame     :   Current frame from camera object
+     * faceROI          :   Face area expressed with Rectangle coordinates 
+     * 
+     * frameRunner      :   Thread for capturing frame
+     * progressRunner   :   Thread for processing progress bar
+     * 
+     * registeredFace   :   Extracted face area 
+     * gcInterval       :   Counter of interval garbage collector calling  
+     * 
+     */
     public partial class RegisterFaceForm : MetroForm
     {
         private bool stopFrameFlag = false;
@@ -31,7 +54,7 @@ namespace Assignment5
 
         private Mat registeredFace = null;
 
-        private int gcInterval = 5;
+        private int gcInterval = 30;
         
         public Mat RegisteredFace
         {
@@ -43,11 +66,13 @@ namespace Assignment5
             InitializeComponent();
         }
 
+        /* Initialize current frame */
         private void OnLoad(object sender, EventArgs e)
         {
             currentFrame = new Mat();
         }
 
+        /* Run all threads [Capturing frame, Processing progress bar]  */
         private void OnShown(object sender, EventArgs e)
         {
             progressRunner = new Thread(new ThreadStart(delegate () { RunProgress(); }));
@@ -56,6 +81,7 @@ namespace Assignment5
             frameRunner.Start(); 
         }
 
+        /* Capturing frame routine */
         private void RunFrame()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -71,6 +97,7 @@ namespace Assignment5
                 Close();
             }
 
+            //Adjust camera resolution with component size
             camera.FrameWidth = picb_registerface.Width;
             camera.FrameHeight = picb_registerface.Height;
             
@@ -81,6 +108,7 @@ namespace Assignment5
                 var haarCascade = new CascadeClassifier("haarcascade_frontalface_alt2.xml");
                 faceROI = DetectFace(haarCascade);
 
+                //Display
                 picb_registerface.ImageIpl = currentFrame;
 
                 if (gcInterval == gcCount++)
@@ -93,6 +121,7 @@ namespace Assignment5
             }
         }
 
+        /* Face detecting routine - returns detected area */
         private Rect DetectFace(CascadeClassifier cascade)
         {
             Mat result;
@@ -105,11 +134,14 @@ namespace Assignment5
                 if (src.Empty())
                     return new Rect(0, 0, 0, 0);
  
+                //Color conversion
                 Cv2.CvtColor(src, gray, ColorConversionCodes.BGR2GRAY);
 
+                //Detect all faces in frame
                 Rect[] faces = cascade.DetectMultiScale(
                     gray, 1.08, 2, HaarDetectionType.ScaleImage, new OpenCvSharp.Size(30, 30));
 
+                //Returns first one
                 if (faces.Length > 0)
                 {
                     if(pb_registerface.Value != 100)
@@ -126,12 +158,14 @@ namespace Assignment5
             return new Rect(0, 0, 0, 0);          
         }
 
+        /* Processing progress bar routine */
         private void RunProgress()
         {
             while (!stopFrameFlag)
             {
-                Thread.Sleep(500);
+                Thread.Sleep(500); 
 
+                //Register current face area and stop capturing
                 if (pb_registerface.Value == 100)
                 {
                     stopFrameFlag = true;
@@ -139,6 +173,7 @@ namespace Assignment5
                     break;
                 }
 
+                //Manipulate progress bar value as flag value
                 if (!isFaceDetected)
                 {
                     pb_registerface.Value = 0;                                            
@@ -153,15 +188,18 @@ namespace Assignment5
             }
         }
 
+        /* Extracting face routine  */
         private void RegisterFaceRoutine()
         {
             stopFrameFlag = true;
 
+            //Expands face area with 20px for all direction[Top, Bottom, Left, Right]
             faceROI.X -= 20;
             faceROI.Y -= 20;
             faceROI.Width += 40;
             faceROI.Height += 40;
 
+            //Handle exceptions can be occured by previous expansion
             if (faceROI.X < 0)
                 faceROI.X = 0;
             if (faceROI.Y < 0)
@@ -171,12 +209,14 @@ namespace Assignment5
             if (faceROI.Y + faceROI.Height > currentFrame.Height)
                 faceROI.Height = currentFrame.Height - faceROI.Y - 1;
 
+            //Extract face area with rectangle
             registeredFace = currentFrame.SubMat(faceROI);
 
             var crff = new ConfirmRegisterFaceForm(registeredFace);
 
             if(DialogResult.Cancel == crff.ShowDialog())
             {
+                //Save or Not
                 if (crff.RegisterOK)
                 {
                     registeredFace = crff.RegisteredFace;
@@ -189,11 +229,13 @@ namespace Assignment5
             }
         }
 
+        /* Groundwork for closing form */
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
             stopFrameFlag = true;
         }
 
+        /* Dispose camera object */
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
             camera.Dispose();
