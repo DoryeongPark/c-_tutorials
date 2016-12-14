@@ -185,8 +185,6 @@ namespace Assignment5
                 new Scalar(0, 0, 200),
                 4
             );
-
-
         }
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)
