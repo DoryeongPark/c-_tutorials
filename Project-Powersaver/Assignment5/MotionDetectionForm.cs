@@ -16,6 +16,31 @@ using OpenCvSharp;
 
 namespace Assignment5
 {
+
+    /*
+     *  MotionDetectionForm
+     *  
+     *  Author  :   Doryeong Park
+     *  Date    :   13. 12. 2016
+     *  Desc    :   Form detecting motion in capturing through differance between previoius frame
+     *  
+     *  
+     *  variables
+     *  
+     *  frameRunner     :   Thread for capturing frame
+     *  camera          :   Object which grabs frame of each time
+     *  
+     *  currentFrame    :   Current frame from camera object
+     *  posterizedFrame :   8-level posterized frame
+     *  previousFrame   :   Previous posterized frame
+     *  resultFrame     :   Frame displayed as result of differance 
+     *  
+     *  userSensitivity :   Critical point determining motion
+     *  
+     *  stopFrameFlag   :   When form's closing, the flag stops all threads for capturing
+     *  
+     *  gcInterval      :   Counter of interval garbage collector calling
+     */
     public partial class MotionDetectionForm : MetroForm
     {
         
@@ -27,7 +52,7 @@ namespace Assignment5
         private Mat previousFrame;
         private Mat resultFrame;
 
-        private int userSensitivity = 5000;     //min: 500 - default: 5000 - max: 9500
+        private int userSensitivity = 5000;     // min: 500 - default: 5000 - max: 9500
 
         private bool stopFrameFlag = false;
 
@@ -44,6 +69,7 @@ namespace Assignment5
             lbl_sensitivity.Text = "50";               
         }
         
+        /* Capturing routine */
         private void RunFrame()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -60,25 +86,29 @@ namespace Assignment5
                 Cv2.CvtColor(currentFrame, posterizedFrame, ColorConversionCodes.BGR2GRAY);
                 EightLevelPosterizing();
 
+                //Make differance between current frame and previous frame
                 resultFrame = posterizedFrame - previousFrame;
 
+                //Determine motion state of frame 
                 lbl_motiondetection.Visible = DetermineMotionState();
                 
                 picb_motiondetection.ImageIpl = resultFrame;
+                
+                //Save current frame as previousFrame
                 posterizedFrame.CopyTo(previousFrame);
 
-                if (gcCounter == gcInterval)
+                if (gcCounter++ == gcInterval)
                 {
                     GC.Collect();
                     gcCounter = 0;
                 }
-
-                ++gcCounter;
+    
                 Cv2.WaitKey(20);
                    
             }
         }
 
+        /* Classify 8 scopes and map various pixel values to 8 values */
         private void EightLevelPosterizing()
         {
             var indexer = posterizedFrame.GetGenericIndexer<byte>();
@@ -104,6 +134,7 @@ namespace Assignment5
                 }            
         }
 
+        /* Determine whether motion's detected in result frame or not */
         private bool DetermineMotionState()
         {
             var indexer = resultFrame.GetGenericIndexer<byte>();
@@ -119,7 +150,8 @@ namespace Assignment5
                         indexer[i, j] = 0;
                 }
             }
-
+            
+            //If number of motion pixel value is bigger than user sensitiviy 
             if (determiningPoint >= userSensitivity)
                 return true;
             else
@@ -147,6 +179,7 @@ namespace Assignment5
             camera.Dispose();
         }
 
+        /* Manipulate user sensitivity with trackbar */
         private void OnScroll(object sender, ScrollEventArgs e)
         {
             userSensitivity = 500 + (int)(9000.0f * ((100-(float)e.NewValue) / 100.0f));
