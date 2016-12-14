@@ -15,10 +15,22 @@ namespace Assignment5
      * 
      * Author   :   Doryeong Park
      * Date     :   7. 12. 2016
-     * Desc     :   Form tracking area which is similar with face registered 
+     * Desc     :   Form tracking area which has high concordance with face registered 
      * 
      * 
      * variables
+     * faceRegistered   :   Registered face area from procedure before
+     * 
+     * camera           :   Object which grabs frame of each time
+     * currentFrame     :   Current frame from camera object
+     * faceROI          :   Face areas expressed with Rectangle coordinates 
+     * 
+     * frameRunner      :   Thread for capturing frame
+     * gcInterval       :   Counter of interval garbage collector calling
+     * 
+     * percentDisplayed :   Concordance point as percent displayed on Frame
+     * 
+     * stopFrameFlag    :   When form's closing, the flag stops all threads for capturing
      * 
      */
     public partial class CompareFaceForm : MetroForm
@@ -30,7 +42,7 @@ namespace Assignment5
         private Rect[] facesROI;
 
         private Thread frameRunner;
-        private int gcInterval = 5;
+        private int gcInterval = 30;
 
         private int percentDisplayed = 0;
 
@@ -42,6 +54,7 @@ namespace Assignment5
             this.faceRegistered = faceRegistered;
         }
 
+        
         private void OnLoad(object sender, EventArgs e)
         {
             if (faceRegistered == null)
@@ -49,13 +62,15 @@ namespace Assignment5
 
             currentFrame = new Mat();
         }
-
+        
+        /* Start capturing frame */
         private void OnShown(object sender, EventArgs e)
         {
             frameRunner = new Thread(new ThreadStart(delegate () { RunFrame(); }));
             frameRunner.Start();
         }
 
+        /* Capturing routine */
         private void RunFrame()
         {
             CheckForIllegalCrossThreadCalls = false;
@@ -96,6 +111,7 @@ namespace Assignment5
             }
         }
 
+        /* Detect all candidates which are regarded as face area */
         private Rect[] DetectFaces(CascadeClassifier cascade)
         {
             Mat result;
@@ -118,6 +134,8 @@ namespace Assignment5
             return null;
         }
 
+
+        /* Pick elect which concordance is the highest and display it */
         private void Compare()
         {
             if (facesROI == null || facesROI.Length == 0)
@@ -132,21 +150,28 @@ namespace Assignment5
 
             for (int i = 0; i < facesROI.Length; ++i)
             {
+                
                 Mat corrMat = new Mat(new OpenCvSharp.Size(41, 41), MatType.CV_32FC1);
                 var candidate = currentFrame.SubMat(facesROI[i]);
+                
+                //Scaling same size with registered face - 20
                 Cv2.Resize(candidate, candidate,
                 new OpenCvSharp.Size(faceRegistered.Width - 40, faceRegistered.Height - 40),
                 0, 0, InterpolationFlags.Linear);
+
+                //Make correlation map[0 ~ 1.0]
                 Cv2.MatchTemplate(faceRegistered, candidate, corrMat, TemplateMatchModes.CCoeffNormed);
 
                 double max = 0;
                 double min = 0;
 
+                //Extract Maximum point
                 corrMat.MinMaxLoc(out min, out max);
 
                 if (max < 0.6)
                     continue;
-
+                
+                //Changes maximum concordance area
                 if (result < max)
                 {
                     result = max;
@@ -157,6 +182,7 @@ namespace Assignment5
                     top = facesROI[i].Top;
                 }
 
+                //Display concordance > 70%
                 if (percent >= 70)
                 {
                     percentDisplayed = (int)percent;
@@ -164,6 +190,7 @@ namespace Assignment5
 
             }
 
+            //Drawing routines with coordinates
             Cv2.PutText(currentFrame, percentDisplayed + "%",
                 new OpenCvSharp.Point((right + left) / 2 - 15, (top - 50)),
                 HersheyFonts.HersheyPlain,
@@ -192,11 +219,13 @@ namespace Assignment5
             );
         }
 
+        /* Dispose camera object */
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
             camera.Dispose();
         }
 
+        /* Groundwork to close form */
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
             stopFrameFlag = true;

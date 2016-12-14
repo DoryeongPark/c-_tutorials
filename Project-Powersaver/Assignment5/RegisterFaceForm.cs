@@ -37,7 +37,7 @@ namespace Assignment5
      * progressRunner   :   Thread for processing progress bar
      * 
      * registeredFace   :   Extracted face area 
-     * gcInterval       :   Counter of interval garbage collector calling  
+     * gcInterval       :   Counter of interval garbage collector calling
      * 
      */
     public partial class RegisterFaceForm : MetroForm
