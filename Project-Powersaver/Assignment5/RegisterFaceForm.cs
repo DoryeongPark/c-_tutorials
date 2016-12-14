@@ -108,7 +108,7 @@ namespace Assignment5
                 var haarCascade = new CascadeClassifier("haarcascade_frontalface_alt2.xml");
                 faceROI = DetectFace(haarCascade);
 
-                //Display
+                //Display frame
                 picb_registerface.ImageIpl = currentFrame;
 
                 if (gcInterval == gcCount++)

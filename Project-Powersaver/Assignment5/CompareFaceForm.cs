@@ -87,6 +87,7 @@ namespace Assignment5
                 Close();
             }
 
+            //Adjust camera resolution with component size
             camera.FrameWidth = picb_compareface.Width;
             camera.FrameHeight = picb_compareface.Height;
 
@@ -97,8 +98,10 @@ namespace Assignment5
                 var haarCascade = new CascadeClassifier("haarcascade_frontalface_alt2.xml");
                 facesROI = DetectFaces(haarCascade);
 
+                //Get the highest concordance area and display it
                 Compare();
 
+                //Display frame
                 picb_compareface.ImageIpl = currentFrame;
 
                 if (gcInterval == gcCount++)
