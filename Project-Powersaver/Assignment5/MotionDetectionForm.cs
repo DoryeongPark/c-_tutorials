@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 
 using MetroFramework;
@@ -40,6 +34,7 @@ namespace Assignment5
      *  stopFrameFlag   :   When form's closing, the flag stops all threads for capturing
      *  
      *  gcInterval      :   Counter of interval garbage collector calling
+     *  
      */
     public partial class MotionDetectionForm : MetroForm
     {
